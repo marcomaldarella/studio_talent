@@ -1,50 +1,52 @@
 import type { Metadata } from 'next'
-import { client } from '../../lib/sanityClient'
-import { SITE_SETTINGS_QUERY } from '../../lib/queries'
-import type { SiteSettings } from '../../types'
 import Footer from '../../components/Footer'
 import '../../styles/contact.css'
 
-export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Contact' }
 
-export const metadata: Metadata = {
-  title: 'Contact',
-}
-
-export default async function ContactPage() {
-  const settings: SiteSettings | null = await client
-    .fetch(SITE_SETTINGS_QUERY)
-    .catch(() => null)
-
-  const email = settings?.email ?? 'hello@studiotalent.com'
-  const instagram = settings?.instagram ?? 'studiotalent'
-
+export default function ContactPage() {
   return (
     <main className="st-contact">
-      <section className="st-contact-hero">
-        <h1 className="st-contact-title">Get in<br />touch.</h1>
-        <p className="st-contact-intro">
-          For project inquiries, collaborations, and general questions —
-          reach out via email or follow us on Instagram.
-        </p>
-      </section>
+      <div className="st-contact-body">
+        {/* LEFT: form */}
+        <div className="st-contact-form-col">
+          <div className="st-contact-form-label">
+            <span className="st-contact-dot">■</span>
+            Contact form
+          </div>
+          <form action="#" method="POST">
+            <div className="st-contact-field">
+              <label htmlFor="nome">Nome</label>
+              <input type="text" id="nome" name="nome" autoComplete="name" />
+            </div>
+            <div className="st-contact-field">
+              <label htmlFor="azienda">Azienda</label>
+              <input type="text" id="azienda" name="azienda" autoComplete="organization" />
+            </div>
+            <div className="st-contact-field">
+              <label htmlFor="email">Email</label>
+              <input type="email" id="email" name="email" autoComplete="email" />
+            </div>
+            <div className="st-contact-field">
+              <label htmlFor="messaggio">Messaggio</label>
+              <textarea id="messaggio" name="messaggio" rows={4} />
+            </div>
+            <div className="st-contact-submit-row">
+              <button type="submit" className="st-contact-submit">Invia</button>
+            </div>
+          </form>
+        </div>
 
-      <div className="st-contact-links">
-        <a href={`mailto:${email}`} className="st-contact-link-row">
-          <span className="st-contact-link-label">Email</span>
-          <span className="st-contact-link-value">{email}</span>
-        </a>
-        <a
-          href={`https://instagram.com/${instagram.replace('@', '')}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="st-contact-link-row"
-        >
-          <span className="st-contact-link-label">Instagram</span>
-          <span className="st-contact-link-value">@{instagram.replace('@', '')}</span>
-        </a>
+        {/* RIGHT: address */}
+        <div className="st-contact-info-col">
+          <address className="st-contact-address" style={{ fontStyle: 'normal' }}>
+            <span className="st-contact-address-bold">Studio Talent SRL</span>
+            <span className="st-contact-address-light">Via Francesco De Santis, 86</span>
+            <span className="st-contact-address-bold">72017 Ostuni [BR]</span>
+            <span className="st-contact-address-light">P.IVA 02645640745</span>
+          </address>
+        </div>
       </div>
-
       <Footer />
     </main>
   )

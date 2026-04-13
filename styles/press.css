@@ -1,0 +1,114 @@
+.st-press {
+  min-height: calc(100dvh - 1px);
+  display: flex;
+  flex-direction: column;
+}
+
+.st-press-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--left) 1fr;
+  position: relative;
+}
+
+.st-press-left {
+  border-right: 1px solid rgba(29, 29, 27, 0.2);
+  position: relative;
+}
+
+/* Hover image — appears in the left column */
+.st-press-hover-img {
+  position: sticky;
+  top: 120px;
+  left: 0;
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.st-press-hover-img.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.st-press-list {
+  /* right column */
+}
+
+.st-press-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(29, 29, 27, 0.2);
+  padding: 0 16px;
+  cursor: default;
+  transition: background 0.1s ease;
+}
+
+.st-press-item.has-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.st-press-item:hover {
+  background: rgba(29, 29, 27, 0.03);
+}
+
+.st-press-item-header {
+  grid-column: 1 / -1;
+  padding: 8px 0 4px;
+  border-bottom: 1px solid rgba(29, 29, 27, 0.12);
+}
+
+.st-press-item-pub {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.st-press-item-pub.active-pub {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.st-press-active-dot {
+  font-size: 6px;
+}
+
+.st-press-item-meta {
+  padding: 4px 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.st-press-item-year {
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.st-press-item-desc {
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: rgba(29, 29, 27, 0.6);
+  text-align: right;
+  padding: 4px 0 8px;
+  align-self: start;
+}
+
+@media (max-width: 640px) {
+  .st-press-body { grid-template-columns: 1fr; }
+  .st-press-left { display: none; }
+  .st-press-item { grid-template-columns: 1fr; }
+  .st-press-item-desc { text-align: left; }
+}

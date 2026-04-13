@@ -4,36 +4,37 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import '../styles/header.css'
 
-interface HeaderProps {
-  onMenuOpen: () => void
-}
+const NAV = [
+  { href: '/work', label: 'Work' },
+  { href: '/about', label: 'About' },
+  { href: '/press', label: 'Press' },
+  { href: '/contact', label: 'Contact' },
+]
 
-export default function Header({ onMenuOpen }: HeaderProps) {
+export default function Header() {
   const pathname = usePathname()
-
-  const sectionLabel =
-    pathname.startsWith('/work') ? 'Work' :
-    pathname === '/about' ? 'About' :
-    pathname === '/contact' ? 'Contact' : null
 
   return (
     <header className="st-header">
-      <div className="st-header-inner">
-        <Link href="/" className="st-logo">
-          Studio Talent
-        </Link>
-        <button className="st-menu-btn" onClick={onMenuOpen}>
-          [Menu]
-        </button>
-      </div>
-      {sectionLabel && (
-        <div className="st-sub-bar">
-          <span className="st-section-label">
-            {sectionLabel}
-            <span className="st-section-dot" />
-          </span>
-        </div>
-      )}
+      <Link href="/" className="st-brand" aria-label="Studio Talent — Home">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.svg" alt="Studio Talent" className="st-logo" />
+      </Link>
+      <nav className="st-nav">
+        {NAV.map(({ href, label }) => {
+          const active = pathname === href || (href !== '/' && pathname.startsWith(href))
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`st-nav-item${active ? ' active' : ''}`}
+            >
+              {active && <span className="st-nav-dot">■</span>}
+              {label}
+            </Link>
+          )
+        })}
+      </nav>
     </header>
   )
 }

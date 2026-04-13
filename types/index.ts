@@ -12,6 +12,15 @@ export interface Project {
   featured?: boolean
 }
 
+export interface PressItem {
+  _id: string
+  publication: string
+  year: number
+  description?: string
+  coverImage?: string
+  link?: string
+}
+
 export interface SiteSettings {
   studioName: string
   tagline?: string

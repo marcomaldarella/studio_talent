@@ -1,24 +1,29 @@
 import '../styles/footer.css'
 
-export default function Footer() {
+interface FooterProps {
+  right?: React.ReactNode
+}
+
+export default function Footer({ right }: FooterProps) {
   return (
     <footer className="st-footer">
-      <span className="st-footer-left">
-        © {new Date().getFullYear()} Studio Talent
-      </span>
-      <div className="st-footer-right">
+      <div className="st-footer-links">
         <a
-          href="https://instagram.com"
+          href="https://instagram.com/studiotalent"
           target="_blank"
           rel="noopener noreferrer"
           className="st-footer-link"
         >
-          Instagram
+          Follow me
         </a>
         <a href="/contact" className="st-footer-link">
-          Contact
+          Write me
+        </a>
+        <a href="/privacy" className="st-footer-link">
+          Privacy policy
         </a>
       </div>
+      {right && <div className="st-footer-right">{right}</div>}
     </footer>
   )
 }

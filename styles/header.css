@@ -1,66 +1,68 @@
 .st-header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
   background: var(--bg);
-  border-bottom: 1px solid var(--fg);
 }
 
-.st-header-inner {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: 14px 16px 12px;
+.st-brand {
+  display: block;
+  line-height: 0;
 }
 
 .st-logo {
-  font-size: clamp(22px, 5.8vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--fg);
+  width: 100%;
+  height: auto;
+  display: block;
+  padding: 12px 16px 8px;
 }
 
-.st-menu-btn {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  padding: 4px 0;
-  line-height: 1;
-  color: var(--fg);
-  background: none;
-  border: none;
-  font-family: var(--font);
+.st-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-left: var(--left);
+  border-top: 1px solid rgba(29, 29, 27, 0.2);
 }
 
-.st-sub-bar {
+.st-nav-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--fg);
-}
-
-.st-section-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
+  padding: 7px 0 6px;
+  border-bottom: 1px solid rgba(29, 29, 27, 0.2);
+  color: var(--fg);
+  transition: opacity 0.15s ease;
 }
 
-.st-section-dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  background: var(--fg);
+.st-nav-item:hover {
+  opacity: 0.5;
+}
+
+.st-nav-item.active {
+  opacity: 1;
+}
+
+.st-nav-dot {
+  font-size: 6px;
+  line-height: 1;
   flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .st-logo {
+    padding: 10px 12px 6px;
+  }
+
+  .st-nav {
+    margin-left: 0;
+  }
+
+  .st-nav-item {
+    font-size: 9px;
+    padding: 6px 12px 5px;
+  }
 }

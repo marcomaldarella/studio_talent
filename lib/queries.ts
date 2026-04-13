@@ -30,6 +30,15 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
   tags
 }`
 
+export const ALL_PRESS_QUERY = `*[_type == "press"] | order(order asc, year desc) {
+  _id,
+  publication,
+  year,
+  description,
+  "coverImage": coverImage.asset->url,
+  link
+}`
+
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0] {
   studioName,
   tagline,
