@@ -12,7 +12,7 @@
 }
 
 .st-about-left {
-  border-right: 1px solid rgba(29, 29, 27, 0.2);
+  border-right: 1px solid #000;
 }
 
 .st-about-right {
@@ -23,7 +23,7 @@
 
 .st-about-block {
   padding: 28px 16px;
-  border-bottom: 1px solid rgba(29, 29, 27, 0.2);
+  border-bottom: 1px solid #000;
 }
 
 .st-about-text {

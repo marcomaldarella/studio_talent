@@ -15,12 +15,12 @@
 }
 
 .st-work-list-left {
-  border-right: 1px solid rgba(29, 29, 27, 0.2);
+  border-right: 1px solid #000;
 }
 
 .st-work-item {
   display: block;
-  border-bottom: 1px solid rgba(29, 29, 27, 0.2);
+  border-bottom: 1px solid #000;
   padding: 0 16px;
   text-decoration: none;
   color: inherit;
@@ -28,7 +28,7 @@
 
 .st-work-item-header {
   padding: 10px 0 6px;
-  border-bottom: 1px solid rgba(29, 29, 27, 0.12);
+  border-bottom: 1px solid #000;
 }
 
 .st-work-item-title {
@@ -93,7 +93,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 7px 16px;
-  border-bottom: 1px solid rgba(29, 29, 27, 0.2);
+  border-bottom: 1px solid #000;
   flex-shrink: 0;
 }
 
@@ -184,7 +184,7 @@
   height: 100%;
   position: relative;
   background: rgba(29, 29, 27, 0.06);
-  border-right: 1px solid rgba(29, 29, 27, 0.12);
+  border-right: 1px solid #000;
 }
 
 .st-project-img-wrap:last-child {
@@ -203,7 +203,7 @@
   display: flex;
   gap: 24px;
   padding: 14px 16px;
-  border-top: 1px solid rgba(29, 29, 27, 0.2);
+  border-top: 1px solid #000;
 }
 
 .st-project-footer-link {

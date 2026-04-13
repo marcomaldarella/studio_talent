@@ -13,7 +13,7 @@
 }
 
 .st-press-left {
-  border-right: 1px solid rgba(29, 29, 27, 0.2);
+  border-right: 1px solid #000;
   position: relative;
 }
 
@@ -45,7 +45,7 @@
 .st-press-item {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid rgba(29, 29, 27, 0.2);
+  border-bottom: 1px solid #000;
   padding: 0 16px;
   cursor: default;
   transition: background 0.1s ease;
@@ -64,7 +64,7 @@
 .st-press-item-header {
   grid-column: 1 / -1;
   padding: 8px 0 4px;
-  border-bottom: 1px solid rgba(29, 29, 27, 0.12);
+  border-bottom: 1px solid #000;
 }
 
 .st-press-item-pub {
