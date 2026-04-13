@@ -1,10 +1,6 @@
 import '../styles/footer.css'
 
-interface FooterProps {
-  right?: React.ReactNode
-}
-
-export default function Footer({ right }: FooterProps) {
+export default function Footer() {
   return (
     <footer className="st-footer">
       <div className="st-footer-links">
@@ -23,7 +19,6 @@ export default function Footer({ right }: FooterProps) {
           Privacy policy
         </a>
       </div>
-      {right && <div className="st-footer-right">{right}</div>}
     </footer>
   )
 }

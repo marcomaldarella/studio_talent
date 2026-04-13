@@ -1,7 +1,8 @@
 .st-contact {
-  min-height: calc(100dvh - 1px);
+  flex: 1;
   display: flex;
   flex-direction: column;
+  padding-bottom: 46px; /* fixed footer */
 }
 
 /* Layout: form on LEFT, address on RIGHT-BOTTOM */
@@ -112,6 +113,28 @@
 
 .st-contact-address-bold { font-weight: 700; display: block; }
 .st-contact-address-light { font-weight: 200; display: block; }
+
+.st-contact-success {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.st-contact-success p {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  color: rgba(29, 29, 27, 0.7);
+}
+
+.st-contact-error {
+  font-size: 10px;
+  font-weight: 400;
+  color: #b00020;
+  padding: 8px 0 0;
+  letter-spacing: 0.03em;
+}
 
 @media (max-width: 640px) {
   .st-contact-body { grid-template-columns: 1fr; }

@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { client } from '../../lib/sanityClient'
 import { ALL_PRESS_QUERY } from '../../lib/queries'
 import type { PressItem } from '../../types'
-import Footer from '../../components/Footer'
 import PressList from './PressList'
 
 export const dynamic = 'force-dynamic'
@@ -14,7 +13,7 @@ export default async function PressPage() {
   return (
     <main className="st-press">
       <PressList items={items} />
-      <Footer />
+      
     </main>
   )
 }

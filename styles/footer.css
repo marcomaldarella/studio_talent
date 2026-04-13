@@ -1,16 +1,22 @@
+/* Fixed footer — sempre visibile in basso */
 .st-footer {
-  display: grid;
-  grid-template-columns: var(--left) 1fr;
-  padding: 20px 0 18px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: var(--bg);
   border-top: 1px solid rgba(29, 29, 27, 0.2);
-  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
 }
 
 .st-footer-links {
   display: flex;
   gap: 24px;
   align-items: center;
-  padding-left: 16px;
 }
 
 .st-footer-link {
@@ -29,24 +35,9 @@
 }
 
 .st-footer-right {
-  padding-right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-@media (max-width: 640px) {
-  .st-footer {
-    grid-template-columns: 1fr;
-    padding: 16px 12px;
-  }
-
-  .st-footer-links {
-    padding-left: 0;
-    gap: 16px;
-  }
-
-  .st-footer-right {
-    display: none;
-  }
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(29, 29, 27, 0.4);
 }

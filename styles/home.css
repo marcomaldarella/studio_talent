@@ -1,62 +1,73 @@
 .st-home {
-  min-height: calc(100dvh - 1px);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Hero: two-column grid, left empty, right has body text at bottom */
-.st-home-body {
   flex: 1;
   display: grid;
   grid-template-columns: var(--left) 1fr;
-  align-items: flex-end;
-  padding-bottom: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
+/* Left column: footer pinned to bottom */
 .st-home-left {
-  /* empty */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-right: 1px solid rgba(29, 29, 27, 0.2);
+}
+
+.st-home-footer {
+  display: flex;
+  gap: 24px;
+  padding: 18px 16px;
+  border-top: 1px solid rgba(29, 29, 27, 0.2);
+}
+
+.st-home-footer-link {
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--fg);
+  border-bottom: 1px solid var(--fg);
+  padding-bottom: 1px;
+  transition: opacity 0.15s ease;
+}
+
+.st-home-footer-link:hover {
+  opacity: 0.4;
+}
+
+/* Right column: text pinned to bottom */
+.st-home-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .st-home-text {
-  padding: 40px 16px 32px;
-  border-left: 1px solid rgba(29, 29, 27, 0.2);
+  padding: 20px 16px 18px;
+  border-top: 1px solid rgba(29, 29, 27, 0.2);
 }
 
-/* Mixed-weight body text block */
 .st-home-intro {
-  font-family: var(--font);
-  font-size: clamp(28px, 4.2vw, 60px);
+  font-size: clamp(24px, 4vw, 60px);
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-transform: uppercase;
+  text-align: justify;
 }
 
-.st-home-intro-light {
-  font-weight: 200;
-  display: block;
-  margin-bottom: 0.05em;
-}
-
-.st-home-intro-bold {
-  font-weight: 800;
-}
-
-.st-home-intro-reg {
-  font-weight: 200;
-}
+.st-intro-light { font-weight: 200; }
+.st-intro-bold  { font-weight: 800; }
 
 @media (max-width: 640px) {
-  .st-home-body {
+  .st-home {
     grid-template-columns: 1fr;
   }
-
-  .st-home-text {
-    border-left: none;
-    border-top: 1px solid rgba(29, 29, 27, 0.2);
-    padding: 24px 12px;
+  .st-home-left {
+    display: none;
   }
-
   .st-home-intro {
-    font-size: clamp(28px, 9vw, 48px);
+    font-size: clamp(22px, 8vw, 42px);
+    text-align: left;
   }
 }

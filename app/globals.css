@@ -14,8 +14,11 @@
   padding: 0;
 }
 
-html, body {
+html {
   height: 100%;
+}
+
+html, body {
   overflow-x: hidden;
 }
 
@@ -25,6 +28,9 @@ body {
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 a {

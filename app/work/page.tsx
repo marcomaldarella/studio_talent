@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { client } from '../../lib/sanityClient'
 import { ALL_PROJECTS_QUERY } from '../../lib/queries'
 import type { Project } from '../../types'
-import Footer from '../../components/Footer'
 import '../../styles/work.css'
 
 export const dynamic = 'force-dynamic'
@@ -58,7 +57,7 @@ export default async function WorkPage() {
           ))}
         </div>
       </div>
-      <Footer />
+      
     </main>
   )
 }

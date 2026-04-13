@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Footer from '../../components/Footer'
 import '../../styles/about.css'
 
 export const metadata: Metadata = { title: 'About' }
@@ -38,7 +37,7 @@ export default function AboutPage() {
           ))}
         </div>
       </div>
-      <Footer />
+      
     </main>
   )
 }
