@@ -15,7 +15,7 @@
 /* LEFT: form */
 .st-contact-form-col {
   padding: 0;
-  border-right: 1px solid #000;
+
   display: flex;
   flex-direction: column;
 }

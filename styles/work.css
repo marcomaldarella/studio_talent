@@ -17,7 +17,6 @@
 }
 
 .st-work-list-left {
-  border-right: 1px solid #000;
 }
 
 /* Right column scrolls independently — left stays fixed */
@@ -202,7 +201,6 @@
 }
 
 .st-project-img-wrap:last-child {
-  border-right: none;
 }
 
 .st-project-img {
