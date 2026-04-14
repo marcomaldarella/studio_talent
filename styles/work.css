@@ -45,7 +45,22 @@
 .st-work-item-header {
   padding: 10px 0 6px;
   margin-right: 2em;
-  border-bottom: 1px solid #000;
+  position: relative;
+}
+
+.st-work-item-header::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  animation: stLineGrow 0.6s cubic-bezier(0.77, 0, 0.18, 1) both;
+  animation-delay: calc(var(--i, 0) * 0.07s + 0.1s);
 }
 
 .st-work-item-title {

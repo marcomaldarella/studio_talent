@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
 import type { PressItem } from '../../types'
 import '../../styles/press.css'
@@ -172,7 +172,7 @@ export default function PressList({ items }: { items: PressItem[] }) {
       <div className="st-press-body">
         <div className="st-press-left" />
         <div ref={listRef} className="st-press-list" onMouseLeave={handleMouseLeave}>
-          {list.map((item) => {
+          {list.map((item, index) => {
             const isOpen  = openId === item._id
             const hasImage = !!item.coverImage
 
@@ -180,6 +180,7 @@ export default function PressList({ items }: { items: PressItem[] }) {
               <div
                 key={item._id}
                 className="st-press-item"
+                style={{ '--i': index } as React.CSSProperties}
                 onMouseEnter={() => handleMouseEnter(item)}
               >
                 <div

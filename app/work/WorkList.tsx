@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { gsap } from 'gsap'
 import TransitionLink from '../../components/TransitionLink'
@@ -26,11 +26,12 @@ export default function WorkList({ items }: Props) {
 
   return (
     <div ref={listRef} className="st-work-list-right">
-      {items.map((p) => (
+      {items.map((p, i) => (
         <TransitionLink
           key={p._id}
           href={p.slug ? `/work/${p.slug.current}` : '#'}
           className="st-work-item"
+          style={{ '--i': i } as React.CSSProperties}
         >
           <div className="st-work-item-header">
             <span className="st-work-item-title">{p.title}</span>

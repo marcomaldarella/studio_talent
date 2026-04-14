@@ -67,11 +67,26 @@
 .st-press-item-header {
   padding: 10px 0 6px;
   margin-right: 2em;
-  border-bottom: 1px solid #000;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   cursor: pointer;
+  position: relative;
+}
+
+.st-press-item-header::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  animation: stLineGrow 0.6s cubic-bezier(0.77, 0, 0.18, 1) both;
+  animation-delay: calc(var(--i, 0) * 0.06s + 0.08s);
 }
 
 /* Accordion expand — mobile only */
