@@ -18,8 +18,8 @@ html {
   height: 100%;
 }
 
-html, body {
-  overflow-x: hidden;
+body {
+  overflow-x: clip; /* clip instead of hidden — does not create a scroll container, preserves sticky */
 }
 
 body {
