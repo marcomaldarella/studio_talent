@@ -4,6 +4,19 @@
   grid-template-columns: var(--left) 1fr;
   min-height: 0;
   overflow: hidden;
+  position: relative;
+}
+
+/* Vertical divider */
+.st-home::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--left);
+  bottom: 0;
+  width: 1px;
+  background: #000;
+  pointer-events: none;
 }
 
 /* Left column: footer pinned to bottom */
@@ -11,7 +24,6 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  border-right: 1px solid #000;
 }
 
 .st-home-footer {
@@ -22,9 +34,9 @@
 }
 
 .st-home-footer-link {
-  font-size: 9px;
-  font-weight: 300;
-  letter-spacing: 0.07em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--fg);
   border-bottom: 1px solid var(--fg);
@@ -56,8 +68,8 @@
   text-align: justify;
 }
 
-.st-intro-light { font-weight: 200; }
-.st-intro-bold  { font-weight: 800; }
+.st-intro-light { font-weight: 100; }
+.st-intro-bold  { font-weight: 500; }
 
 @media (max-width: 640px) {
   .st-home {
