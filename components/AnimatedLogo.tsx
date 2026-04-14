@@ -19,14 +19,17 @@ export default function AnimatedLogo({ className }: Props) {
       const paths = Array.from(el.querySelectorAll('path'))
       // Sort by visual x position (left → right)
       const sorted = [...paths].sort((a, b) => a.getBBox().x - b.getBBox().x)
-      // Set all invisible immediately, then animate in sequence
+      // Set all invisible immediately
       gsap.set(sorted, { opacity: 0, y: 24 })
+      // Animate: per-letter stagger + extra gap between STUDIO (0-5) and TALENT (6-11)
+      const PER_LETTER = 0.055
+      const WORD_GAP   = 0.14  // extra pause between the two words
       gsap.to(sorted, {
         opacity: 1,
         y: 0,
         duration: 0.6,
         ease: 'power3.out',
-        stagger: 0.055,
+        stagger: (i) => i * PER_LETTER + (i >= 6 ? WORD_GAP : 0),
       })
     })
 
