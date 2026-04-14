@@ -30,7 +30,7 @@ export default function Header() {
               className={`st-nav-item${active ? ' active' : ''}`}
             >
               {active && <span className="st-nav-dot">■</span>}
-              {label}
+              <span className="st-nav-label">{label}</span>
             </Link>
           )
         })}

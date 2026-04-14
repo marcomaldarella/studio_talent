@@ -33,9 +33,13 @@
   letter-spacing: 0;
   text-transform: uppercase;
   padding: 7px 0 6px;
-  border-bottom: 1px solid #000;
   color: var(--fg);
   transition: opacity 0.15s ease;
+}
+
+.st-nav-label {
+  border-bottom: 1px solid #000;
+  padding-bottom: 2px;
 }
 
 /* ── Entrance animation ── */

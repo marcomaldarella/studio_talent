@@ -28,7 +28,7 @@
 
 .st-home-footer {
   display: flex;
-  gap: 24px;
+  justify-content: space-between;
   padding: 18px 16px;
   border-top: 1px solid #000;
 }
