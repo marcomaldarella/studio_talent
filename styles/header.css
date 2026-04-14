@@ -21,7 +21,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin-left: var(--left);
-  border-top: 1px solid #000;
 }
 
 .st-nav-item {
