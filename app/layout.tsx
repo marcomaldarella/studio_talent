@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import SiteShell from '../components/SiteShell'
-import Footer from '../components/Footer'
+import FooterConditional from '../components/FooterConditional'
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SiteShell>{children}</SiteShell>
-        <Footer />
+        <FooterConditional />
       </body>
     </html>
   )
