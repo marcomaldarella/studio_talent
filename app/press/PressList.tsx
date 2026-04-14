@@ -8,28 +8,32 @@ import '../../styles/press.css'
 const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b
 
 const PLACEHOLDERS: PressItem[] = [
-  { _id: 'ph1', publication: 'AD Italia', year: 2026, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-  { _id: 'ph2', publication: 'Domus', year: 2026, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-  { _id: 'ph3', publication: 'Abitare', year: 2025, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+  { _id: 'ph1', publication: 'AD Italia',  year: 2026, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+  { _id: 'ph2', publication: 'Domus',       year: 2026, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+  { _id: 'ph3', publication: 'Abitare',     year: 2025, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
 ]
 
 export default function PressList({ items }: { items: PressItem[] }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [openId, setOpenId] = useState<string | null>(null)
-  // keep last image visible during fade-out
+  const [openId,    setOpenId]    = useState<string | null>(null)
   const [displayItem, setDisplayItem] = useState<PressItem | null>(null)
 
-  const listRef = useRef<HTMLDivElement>(null)
-  const floatRef = useRef<HTMLDivElement>(null)
+  const listRef     = useRef<HTMLDivElement>(null)
+  // Outer wrapper: RAF writes translate3d here (position only)
+  const floatPosRef = useRef<HTMLDivElement>(null)
+  // Inner wrapper: GSAP writes scale + opacity here (never transform)
+  const floatWrapRef = useRef<HTMLDivElement>(null)
 
-  // Physics — raw refs, never cause re-renders
-  const mouse = useRef({ x: 0, y: 0, ready: false })
-  const pos   = useRef({ x: -9999, y: -9999 })
-  const rafId = useRef<number | null>(null)
+  // Physics state — raw refs, zero re-renders
+  const mouse  = useRef({ x: 0, y: 0 })
+  const pos    = useRef({ x: 0, y: 0 })
+  const raf    = useRef<number | null>(null)
+  const isHovering = useRef(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const list = items.length > 0 ? items : PLACEHOLDERS
 
-  // ── Entrance stagger
+  // ─── Entrance stagger
   useEffect(() => {
     const el = listRef.current
     if (!el) return
@@ -40,94 +44,136 @@ export default function PressList({ items }: { items: PressItem[] }) {
     )
   }, [])
 
-  // ── Set initial state imperatively (avoids JSX style prop fighting with GSAP/RAF)
+  // ─── Global mouse tracker
   useEffect(() => {
-    const el = floatRef.current
-    if (!el) return
-    el.style.opacity = '0'
-    el.style.transform = 'translate3d(-9999px,-9999px,0)'
-  }, [])
-
-  // ── Global mouse tracker
-  useEffect(() => {
+    let initialised = false
     const onMove = (e: MouseEvent) => {
-      if (!mouse.current.ready) {
-        // Snap position on first move so image doesn't fly in from corner
-        pos.current = { x: e.clientX, y: e.clientY }
-        mouse.current.ready = true
-      }
       mouse.current.x = e.clientX
       mouse.current.y = e.clientY
+      if (!initialised) {
+        pos.current = { x: e.clientX, y: e.clientY }
+        initialised = true
+      }
     }
     window.addEventListener('mousemove', onMove)
     return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
-  // ── Continuous lerp RAF loop — writes ONLY transform, never opacity
-  useEffect(() => {
-    const AMT = 0.08
+  // ─── RAF loop — runs only while hovering, writes ONLY translate3d
+  const startLoop = useCallback(() => {
+    if (raf.current) return
+    const AMT = 0.15
 
     const loop = () => {
       pos.current.x = lerp(pos.current.x, mouse.current.x, AMT)
       pos.current.y = lerp(pos.current.y, mouse.current.y, AMT)
 
-      const el = floatRef.current
+      const el = floatPosRef.current
       if (el) {
         el.style.transform = `translate3d(${pos.current.x + 24}px,${pos.current.y - 60}px,0)`
       }
-
-      rafId.current = requestAnimationFrame(loop)
+      raf.current = requestAnimationFrame(loop)
     }
+    raf.current = requestAnimationFrame(loop)
+  }, [])
 
-    rafId.current = requestAnimationFrame(loop)
-    return () => {
-      if (rafId.current) cancelAnimationFrame(rafId.current)
+  const stopLoop = useCallback(() => {
+    if (raf.current) {
+      cancelAnimationFrame(raf.current)
+      raf.current = null
     }
   }, [])
 
-  // ── Hover handlers — GSAP writes ONLY opacity
+  // ─── Show image: scale 0.85 → 1 + opacity 0 → 1
+  const showImage = useCallback((item: PressItem) => {
+    if (!item.coverImage) return
+    setDisplayItem(item)
+    const wrap = floatWrapRef.current
+    if (!wrap) return
+    gsap.killTweensOf(wrap)
+    gsap.fromTo(wrap,
+      { opacity: 0, scale: 0.82 },
+      { opacity: 1, scale: 1, duration: 0.9, ease: 'expo.out' }
+    )
+  }, [])
+
+  // ─── Hide image: scale + fade out
+  const hideImage = useCallback(() => {
+    const wrap = floatWrapRef.current
+    if (!wrap) return
+    gsap.killTweensOf(wrap)
+    gsap.to(wrap, {
+      opacity: 0,
+      scale: 0.88,
+      duration: 0.5,
+      ease: 'power2.in',
+      onComplete: stopLoop,
+    })
+  }, [stopLoop])
+
+  // ─── Hover handlers
   const handleMouseEnter = useCallback((item: PressItem) => {
-    setHoveredId(item._id)
-    if (item.coverImage) setDisplayItem(item)
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
 
-    const el = floatRef.current
-    if (!el || !item.coverImage) return
-    gsap.killTweensOf(el, 'opacity')
-    gsap.to(el, { opacity: 1, duration: 0.4, ease: 'power2.out' })
-  }, [])
+    const wasHovering = isHovering.current
+    isHovering.current = true
+    setHoveredId(item._id)
+
+    // Snap pos to cursor on first enter (avoids flying in from last position)
+    pos.current = { x: mouse.current.x, y: mouse.current.y }
+
+    startLoop()
+
+    // If already hovering another row: re-trigger show animation (row switch)
+    if (wasHovering) {
+      showImage(item)
+    } else {
+      // Small delay like the original (100ms) before revealing
+      timeoutRef.current = setTimeout(() => {
+        showImage(item)
+      }, 60)
+    }
+  }, [startLoop, showImage])
 
   const handleMouseLeave = useCallback(() => {
+    isHovering.current = false
     setHoveredId(null)
-    const el = floatRef.current
-    if (!el) return
-    gsap.killTweensOf(el, 'opacity')
-    gsap.to(el, { opacity: 0, duration: 0.3, ease: 'power2.in' })
-  }, [])
+    hideImage()
+  }, [hideImage])
 
-  const toggleOpen = (id: string) => {
-    setOpenId((prev) => (prev === id ? null : id))
-  }
+  // cleanup
+  useEffect(() => () => {
+    stopLoop()
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+  }, [stopLoop])
+
+  const toggleOpen = (id: string) => setOpenId(p => p === id ? null : id)
 
   return (
     <>
-      {/* Physics cursor image — desktop only */}
-      <div ref={floatRef} className="st-press-float-img-wrap">
-        {displayItem?.coverImage && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={displayItem.coverImage}
-            alt={displayItem.publication}
-            className="st-press-float-img"
-          />
-        )}
+      {/* Outer: position via RAF translate3d — GSAP never touches this */}
+      <div ref={floatPosRef} className="st-press-float-pos">
+        {/* Inner: scale + opacity via GSAP — RAF never touches this */}
+        <div ref={floatWrapRef} className="st-press-float-wrap">
+          {displayItem?.coverImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={displayItem.coverImage}
+              alt={displayItem.publication}
+              className="st-press-float-img"
+            />
+          )}
+        </div>
       </div>
 
       <div className="st-press-body">
         <div className="st-press-left" />
-
         <div ref={listRef} className="st-press-list">
           {list.map((item) => {
-            const isOpen = openId === item._id
+            const isOpen  = openId === item._id
             const hasImage = !!item.coverImage
 
             return (

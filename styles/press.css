@@ -143,7 +143,7 @@
 }
 
 /* Floating cursor image — desktop only */
-.st-press-float-img-wrap {
+.st-press-float-pos {
   position: fixed;
   top: 0;
   left: 0;
@@ -152,19 +152,19 @@
   will-change: transform;
 }
 
+.st-press-float-wrap {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
 .st-press-float-img {
   display: block;
   width: 140px;
   height: auto;
 }
 
-/* Desktop: cursor float image visible */
-@media (min-width: 641px) {
-  .st-press-float-img-wrap { display: block; }
-}
-
 @media (max-width: 640px) {
-  .st-press-float-img-wrap { display: none; }
+  .st-press-float-pos { display: none; }
 }
 
 @media (max-width: 640px) {
