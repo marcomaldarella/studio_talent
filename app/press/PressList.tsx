@@ -171,7 +171,7 @@ export default function PressList({ items }: { items: PressItem[] }) {
 
       <div className="st-press-body">
         <div className="st-press-left" />
-        <div ref={listRef} className="st-press-list">
+        <div ref={listRef} className="st-press-list" onMouseLeave={handleMouseLeave}>
           {list.map((item) => {
             const isOpen  = openId === item._id
             const hasImage = !!item.coverImage
@@ -181,7 +181,6 @@ export default function PressList({ items }: { items: PressItem[] }) {
                 key={item._id}
                 className="st-press-item"
                 onMouseEnter={() => handleMouseEnter(item)}
-                onMouseLeave={handleMouseLeave}
               >
                 <div
                   className="st-press-item-header"
