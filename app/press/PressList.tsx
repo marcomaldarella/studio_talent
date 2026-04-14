@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import Image from 'next/image'
 import { gsap } from 'gsap'
 import type { PressItem } from '../../types'
 import '../../styles/press.css'
+
+const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b
 
 const PLACEHOLDERS: PressItem[] = [
   { _id: 'ph1', publication: 'AD Italia', year: 2026, description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
@@ -15,60 +16,83 @@ const PLACEHOLDERS: PressItem[] = [
 export default function PressList({ items }: { items: PressItem[] }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [openId, setOpenId] = useState<string | null>(null)
+  // keep last image visible during fade-out
+  const [displayItem, setDisplayItem] = useState<PressItem | null>(null)
+
   const listRef = useRef<HTMLDivElement>(null)
   const floatRef = useRef<HTMLDivElement>(null)
-  const mousePos = useRef({ x: 0, y: 0 })
-  const rafRef = useRef<number | null>(null)
+
+  // Physics
+  const mouse = useRef({ x: 0, y: 0, init: false })
+  const pos   = useRef({ x: 0, y: 0 })
+  const rafId = useRef<number | null>(null)
 
   const list = items.length > 0 ? items : PLACEHOLDERS
-  const hovered = list.find((p) => p._id === hoveredId)
 
-  // Entrance animation
+  // ── Entrance stagger
   useEffect(() => {
     const el = listRef.current
     if (!el) return
-    const pressItems = Array.from(el.querySelectorAll<HTMLElement>('.st-press-item'))
     gsap.fromTo(
-      pressItems,
+      Array.from(el.querySelectorAll<HTMLElement>('.st-press-item')),
       { y: 14, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.04, delay: 0.05 }
     )
   }, [])
 
-  // Floating image: follow cursor on desktop
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    mousePos.current = { x: e.clientX, y: e.clientY }
-    const el = floatRef.current
-    if (!el) return
-    if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    rafRef.current = requestAnimationFrame(() => {
-      gsap.to(el, {
-        x: mousePos.current.x + 24,
-        y: mousePos.current.y - 60,
-        duration: 0.45,
-        ease: 'power3.out',
-      })
-    })
+  // ── Global mouse tracker (window, not container — avoids gaps between rows)
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!mouse.current.init) {
+        // first move: snap position so image doesn't fly in from 0,0
+        pos.current = { x: e.clientX, y: e.clientY }
+        mouse.current.init = true
+      }
+      mouse.current.x = e.clientX
+      mouse.current.y = e.clientY
+    }
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
-  // Show/hide float image
+  // ── Continuous lerp RAF loop
   useEffect(() => {
+    const AMT = 0.08 // lower = more lag / inertia
+
+    const loop = () => {
+      pos.current.x = lerp(pos.current.x, mouse.current.x, AMT)
+      pos.current.y = lerp(pos.current.y, mouse.current.y, AMT)
+
+      const el = floatRef.current
+      if (el) {
+        el.style.transform = `translate3d(${pos.current.x + 24}px, ${pos.current.y - 60}px, 0)`
+      }
+
+      rafId.current = requestAnimationFrame(loop)
+    }
+
+    rafId.current = requestAnimationFrame(loop)
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current)
+    }
+  }, [])
+
+  // ── Hover handlers
+  const handleMouseEnter = useCallback((item: PressItem) => {
+    setHoveredId(item._id)
+    if (item.coverImage) setDisplayItem(item)
+    const el = floatRef.current
+    if (!el || !item.coverImage) return
+    gsap.killTweensOf(el)
+    gsap.to(el, { opacity: 1, scale: 1, duration: 0.45, ease: 'power3.out' })
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredId(null)
     const el = floatRef.current
     if (!el) return
-    const hasImg = !!hovered?.coverImage
-    gsap.to(el, {
-      opacity: hasImg ? 1 : 0,
-      scale: hasImg ? 1 : 0.92,
-      duration: 0.3,
-      ease: 'power2.out',
-    })
-  }, [hoveredId, hovered])
-
-  // Cleanup RAF on unmount
-  useEffect(() => {
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
+    gsap.killTweensOf(el)
+    gsap.to(el, { opacity: 0, scale: 0.88, duration: 0.35, ease: 'power2.in' })
   }, [])
 
   const toggleOpen = (id: string) => {
@@ -77,28 +101,25 @@ export default function PressList({ items }: { items: PressItem[] }) {
 
   return (
     <>
-      {/* Cursor-following image — desktop only, fixed positioning */}
+      {/* Physics cursor image — desktop only, fixed so transform is relative to viewport */}
       <div
         ref={floatRef}
         className="st-press-float-img-wrap"
-        style={{ opacity: 0, scale: '0.92' } as React.CSSProperties}
+        style={{ opacity: 0, transform: 'translate3d(0,0,0)', willChange: 'transform, opacity' }}
       >
-        {hovered?.coverImage && (
-          <Image
-            src={hovered.coverImage}
-            alt={hovered.publication}
-            width={140}
-            height={185}
+        {displayItem?.coverImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={displayItem.coverImage}
+            alt={displayItem.publication}
             className="st-press-float-img"
           />
         )}
       </div>
 
-      <div className="st-press-body" onMouseMove={onMouseMove}>
-        {/* Left column spacer — desktop layout */}
+      <div className="st-press-body">
         <div className="st-press-left" />
 
-        {/* Right column: list */}
         <div ref={listRef} className="st-press-list">
           {list.map((item) => {
             const isOpen = openId === item._id
@@ -108,10 +129,10 @@ export default function PressList({ items }: { items: PressItem[] }) {
               <div
                 key={item._id}
                 className="st-press-item"
-                onMouseEnter={() => setHoveredId(item._id)}
-                onMouseLeave={() => setHoveredId(null)}
+                onMouseEnter={() => handleMouseEnter(item)}
+                onMouseLeave={handleMouseLeave}
               >
-                {/* Header row */}
+                {/* Header row — click to toggle accordion (mobile) */}
                 <div
                   className="st-press-item-header"
                   onClick={() => toggleOpen(item._id)}
@@ -132,14 +153,13 @@ export default function PressList({ items }: { items: PressItem[] }) {
                   )}
                 </div>
 
-                {/* Expanded image — mobile only */}
+                {/* Accordion expand — mobile only */}
                 {hasImage && (
                   <div className={`st-press-item-expand${isOpen ? ' is-open' : ''}`}>
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={item.coverImage!}
                       alt={item.publication}
-                      width={320}
-                      height={420}
                       className="st-press-item-expand-img"
                     />
                   </div>

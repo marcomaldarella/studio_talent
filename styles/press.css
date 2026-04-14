@@ -87,8 +87,8 @@
   display: block;
   width: auto;
   max-width: 60%;
+  height: auto;
   margin: 16px auto 20px;
-  object-fit: cover;
 }
 
 .st-press-item-pub {
@@ -151,8 +151,7 @@
 .st-press-float-img {
   display: block;
   width: 140px;
-  height: 185px;
-  object-fit: cover;
+  height: auto;
 }
 
 /* Desktop: cursor float image visible */
