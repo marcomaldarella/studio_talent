@@ -31,7 +31,7 @@
   font-weight: 500;
   letter-spacing: 0;
   text-transform: uppercase;
-  padding: 7px 0 6px;
+  padding: 7px 0 6px 16px;
   color: var(--fg);
   transition: opacity 0.15s ease;
 }

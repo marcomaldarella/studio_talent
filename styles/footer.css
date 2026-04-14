@@ -1,15 +1,14 @@
-/* Footer fisso — background transparent */
+/* Footer fisso — solo nella colonna sinistra (STUDIO), background transparent */
 .st-footer {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
   z-index: 90;
   background: transparent;
+  width: var(--left);
   display: flex;
-  align-items: center;
-  padding: 14px 16px;
-  gap: 32px;
+  justify-content: space-between;
+  padding: 18px 16px;
 }
 
 .st-footer-link {

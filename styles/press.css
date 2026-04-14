@@ -1,20 +1,33 @@
 .st-press {
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: 46px;
 }
 
 .st-press-body {
   flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: var(--left) 1fr;
   position: relative;
 }
 
 .st-press-left {
-
   position: relative;
+}
+
+/* Right column scrolls independently */
+.st-press-list {
+  overflow-y: auto;
+  padding-bottom: 46px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.st-press-list::-webkit-scrollbar {
+  display: none;
 }
 
 /* Hover image — appears in the left column */
