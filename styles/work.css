@@ -3,19 +3,33 @@
 ────────────────────────────────────── */
 .st-work {
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: 46px; /* space for fixed footer */
 }
 
 .st-work-list {
   flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: var(--left) 1fr;
 }
 
 .st-work-list-left {
   border-right: 1px solid #000;
+}
+
+/* Right column scrolls independently — left stays fixed */
+.st-work-list-right {
+  overflow-y: auto;
+  padding-bottom: 46px; /* space for fixed footer */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.st-work-list-right::-webkit-scrollbar {
+  display: none;
 }
 
 .st-work-item {

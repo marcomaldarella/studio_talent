@@ -4,19 +4,6 @@
   grid-template-columns: var(--left) 1fr;
   min-height: 0;
   overflow: hidden;
-  position: relative;
-}
-
-/* Vertical divider */
-.st-home::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: var(--left);
-  bottom: 0;
-  width: 1px;
-  background: #000;
-  pointer-events: none;
 }
 
 /* Left column: footer pinned to bottom */
@@ -24,13 +11,18 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  border-right: 1px solid #000;
 }
 
 .st-home-footer {
-  display: flex;
-  justify-content: space-between;
   padding: 18px 16px;
   border-top: 1px solid #000;
+}
+
+/* inner wrapper is what gets animated — border stays on .st-home-footer */
+.st-home-footer-inner {
+  display: flex;
+  justify-content: space-between;
 }
 
 .st-home-footer-link {
@@ -55,6 +47,7 @@
   justify-content: flex-end;
 }
 
+/* border-top is on the static wrapper, never on the animated element */
 .st-home-text {
   padding: 20px 16px 18px;
   border-top: 1px solid #000;
