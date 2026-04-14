@@ -22,9 +22,9 @@ export default function PressList({ items }: { items: PressItem[] }) {
   const listRef = useRef<HTMLDivElement>(null)
   const floatRef = useRef<HTMLDivElement>(null)
 
-  // Physics
-  const mouse = useRef({ x: 0, y: 0, init: false })
-  const pos   = useRef({ x: 0, y: 0 })
+  // Physics — raw refs, never cause re-renders
+  const mouse = useRef({ x: 0, y: 0, ready: false })
+  const pos   = useRef({ x: -9999, y: -9999 })
   const rafId = useRef<number | null>(null)
 
   const list = items.length > 0 ? items : PLACEHOLDERS
@@ -40,13 +40,21 @@ export default function PressList({ items }: { items: PressItem[] }) {
     )
   }, [])
 
-  // ── Global mouse tracker (window, not container — avoids gaps between rows)
+  // ── Set initial state imperatively (avoids JSX style prop fighting with GSAP/RAF)
+  useEffect(() => {
+    const el = floatRef.current
+    if (!el) return
+    el.style.opacity = '0'
+    el.style.transform = 'translate3d(-9999px,-9999px,0)'
+  }, [])
+
+  // ── Global mouse tracker
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      if (!mouse.current.init) {
-        // first move: snap position so image doesn't fly in from 0,0
+      if (!mouse.current.ready) {
+        // Snap position on first move so image doesn't fly in from corner
         pos.current = { x: e.clientX, y: e.clientY }
-        mouse.current.init = true
+        mouse.current.ready = true
       }
       mouse.current.x = e.clientX
       mouse.current.y = e.clientY
@@ -55,9 +63,9 @@ export default function PressList({ items }: { items: PressItem[] }) {
     return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
-  // ── Continuous lerp RAF loop
+  // ── Continuous lerp RAF loop — writes ONLY transform, never opacity
   useEffect(() => {
-    const AMT = 0.08 // lower = more lag / inertia
+    const AMT = 0.08
 
     const loop = () => {
       pos.current.x = lerp(pos.current.x, mouse.current.x, AMT)
@@ -65,7 +73,7 @@ export default function PressList({ items }: { items: PressItem[] }) {
 
       const el = floatRef.current
       if (el) {
-        el.style.transform = `translate3d(${pos.current.x + 24}px, ${pos.current.y - 60}px, 0)`
+        el.style.transform = `translate3d(${pos.current.x + 24}px,${pos.current.y - 60}px,0)`
       }
 
       rafId.current = requestAnimationFrame(loop)
@@ -77,22 +85,23 @@ export default function PressList({ items }: { items: PressItem[] }) {
     }
   }, [])
 
-  // ── Hover handlers
+  // ── Hover handlers — GSAP writes ONLY opacity
   const handleMouseEnter = useCallback((item: PressItem) => {
     setHoveredId(item._id)
     if (item.coverImage) setDisplayItem(item)
+
     const el = floatRef.current
     if (!el || !item.coverImage) return
-    gsap.killTweensOf(el)
-    gsap.to(el, { opacity: 1, scale: 1, duration: 0.45, ease: 'power3.out' })
+    gsap.killTweensOf(el, 'opacity')
+    gsap.to(el, { opacity: 1, duration: 0.4, ease: 'power2.out' })
   }, [])
 
   const handleMouseLeave = useCallback(() => {
     setHoveredId(null)
     const el = floatRef.current
     if (!el) return
-    gsap.killTweensOf(el)
-    gsap.to(el, { opacity: 0, scale: 0.88, duration: 0.35, ease: 'power2.in' })
+    gsap.killTweensOf(el, 'opacity')
+    gsap.to(el, { opacity: 0, duration: 0.3, ease: 'power2.in' })
   }, [])
 
   const toggleOpen = (id: string) => {
@@ -101,12 +110,8 @@ export default function PressList({ items }: { items: PressItem[] }) {
 
   return (
     <>
-      {/* Physics cursor image — desktop only, fixed so transform is relative to viewport */}
-      <div
-        ref={floatRef}
-        className="st-press-float-img-wrap"
-        style={{ opacity: 0, transform: 'translate3d(0,0,0)', willChange: 'transform, opacity' }}
-      >
+      {/* Physics cursor image — desktop only */}
+      <div ref={floatRef} className="st-press-float-img-wrap">
         {displayItem?.coverImage && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -132,7 +137,6 @@ export default function PressList({ items }: { items: PressItem[] }) {
                 onMouseEnter={() => handleMouseEnter(item)}
                 onMouseLeave={handleMouseLeave}
               >
-                {/* Header row — click to toggle accordion (mobile) */}
                 <div
                   className="st-press-item-header"
                   onClick={() => toggleOpen(item._id)}
@@ -145,7 +149,6 @@ export default function PressList({ items }: { items: PressItem[] }) {
                   </span>
                 </div>
 
-                {/* Meta row */}
                 <div className="st-press-item-meta">
                   <span className="st-press-item-year">{item.year}</span>
                   {item.description && (
@@ -153,7 +156,6 @@ export default function PressList({ items }: { items: PressItem[] }) {
                   )}
                 </div>
 
-                {/* Accordion expand — mobile only */}
                 {hasImage && (
                   <div className={`st-press-item-expand${isOpen ? ' is-open' : ''}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}

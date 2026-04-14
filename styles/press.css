@@ -49,6 +49,10 @@
 }
 
 /* ── Press item — identical structure to work listing ── */
+.st-press-item:first-child .st-press-item-header {
+  margin-top: 30px;
+}
+
 .st-press-item {
   display: block;
   text-decoration: none;
