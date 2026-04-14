@@ -31,11 +31,11 @@
   font-weight: 500;
   letter-spacing: 0;
   text-transform: uppercase;
-  padding: 14px 0 12px;
+  padding: 14px 0 15px;
   margin: 0 12px;
-  border-bottom: 1px solid #000;
   margin-bottom: 0;
 }
+
 
 .st-contact-dot {
   font-size: 7px;
@@ -44,18 +44,35 @@
 .st-contact-field {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #000;
   padding: 0;
   margin: 0 12px;
+  position: relative;
 }
 
-/* remove border on the field immediately before the submit row */
-.st-contact-field:has(+ .st-contact-submit-row) {
-  border-bottom: none;
+.st-contact-field::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  animation: stLineGrow 0.6s cubic-bezier(0.77, 0, 0.18, 1) both;
+}
+
+/* stagger per field */
+form > .st-contact-field:nth-child(1)::after { animation-delay: 0.11s; }
+form > .st-contact-field:nth-child(2)::after { animation-delay: 0.17s; }
+form > .st-contact-field:nth-child(3)::after { animation-delay: 0.23s; }
+form > .st-contact-field:nth-child(4)::after { animation-delay: 0.29s; }
+
+/* no border on field immediately before submit row */
+.st-contact-field:has(+ .st-contact-submit-row)::after {
+  display: none;
 }
 
 .st-contact-field label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -86,11 +103,22 @@
   justify-content: flex-end;
   padding: 24px 0;
   margin: 0 12px;
-  border-bottom: 1px solid #000;
+  position: relative;
+}
+
+.st-contact-submit-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  animation: stLineGrow 0.6s cubic-bezier(0.77, 0, 0.18, 1) 0.35s both;
 }
 
 .st-contact-submit {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0;
   text-transform: uppercase;
