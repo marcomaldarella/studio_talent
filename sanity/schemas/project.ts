@@ -28,17 +28,6 @@ export const projectSchema = defineType({
       name: 'category',
       title: 'Category',
       type: 'string',
-      options: {
-        list: [
-          { title: 'Film', value: 'Film' },
-          { title: 'Photography', value: 'Photography' },
-          { title: 'Music', value: 'Music' },
-          { title: 'Fashion', value: 'Fashion' },
-          { title: 'Art Direction', value: 'Art Direction' },
-          { title: 'Campaign', value: 'Campaign' },
-          { title: 'Editorial', value: 'Editorial' },
-        ],
-      },
     }),
     defineField({
       name: 'client',

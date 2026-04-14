@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ContactForm from './ContactForm'
+import ContactAddress from './ContactAddress'
 import '../../styles/contact.css'
 
 export const metadata: Metadata = { title: 'Contact' }
@@ -13,12 +14,7 @@ export default function ContactPage() {
 
         {/* RIGHT: address */}
         <div className="st-contact-info-col">
-          <address className="st-contact-address" style={{ fontStyle: 'normal' }}>
-            <span className="st-contact-address-bold">Studio Talent SRL</span>
-            <span className="st-contact-address-light">Via Francesco De Santis, 86</span>
-            <span className="st-contact-address-bold">72017 Ostuni [BR]</span>
-            <span className="st-contact-address-light">P.IVA 02645640745</span>
-          </address>
+          <ContactAddress />
         </div>
       </div>
     </main>

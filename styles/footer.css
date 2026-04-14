@@ -4,11 +4,11 @@
   bottom: 0;
   left: 0;
   z-index: 90;
-  background: transparent;
+  background: var(--bg);
   width: var(--left);
-  display: flex;
-  justify-content: space-between;
-  padding: 18px 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-bottom: 20px;
 }
 
 .st-footer-link {
@@ -18,10 +18,22 @@
   text-transform: uppercase;
   color: #000;
   border-bottom: 1px solid #000;
-  padding-bottom: 1px;
+  padding-bottom: 15px;
+  margin-right: calc(29vw / 12 + 3em);
   transition: opacity 0.15s ease;
+  display: block;
+}
+
+.st-footer-link:first-child {
+  margin-left: 2em;
 }
 
 .st-footer-link:hover {
   opacity: 0.4;
+}
+
+@media (max-width: 768px) {
+  .st-footer {
+    display: none;
+  }
 }

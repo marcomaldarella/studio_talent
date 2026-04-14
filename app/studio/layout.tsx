@@ -3,5 +3,9 @@ export default function StudioLayout({
 }: {
   children: React.ReactNode
 }) {
-  return children
+  return (
+    <div style={{ colorScheme: 'light' }}>
+      {children}
+    </div>
+  )
 }

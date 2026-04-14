@@ -1,15 +1,18 @@
 .st-contact {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  padding-bottom: 46px; /* fixed footer */
 }
 
 /* Layout: form on LEFT, address on RIGHT-BOTTOM */
 .st-contact-body {
   flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: var(--left) 1fr;
+  grid-template-rows: 1fr;
+  align-items: stretch;
 }
 
 /* LEFT: form */
@@ -25,10 +28,11 @@
   align-items: center;
   gap: 6px;
   font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.07em;
+  font-weight: 500;
+  letter-spacing: 0;
   text-transform: uppercase;
-  padding: 14px 16px 12px;
+  padding: 14px 0 12px;
+  margin: 0 12px;
   border-bottom: 1px solid #000;
   margin-bottom: 0;
 }
@@ -41,13 +45,19 @@
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #000;
-  padding: 0 16px;
+  padding: 0;
+  margin: 0 12px;
+}
+
+/* remove border on the field immediately before the submit row */
+.st-contact-field:has(+ .st-contact-submit-row) {
+  border-bottom: none;
 }
 
 .st-contact-field label {
-  font-size: 9px;
-  font-weight: 300;
-  letter-spacing: 0.07em;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: #000;
   padding: 10px 0 0;
@@ -74,22 +84,21 @@
 .st-contact-submit-row {
   display: flex;
   justify-content: flex-end;
-  padding: 12px 16px;
+  padding: 24px 0;
+  margin: 0 12px;
   border-bottom: 1px solid #000;
 }
 
 .st-contact-submit {
   font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--fg);
   background: none;
   border: none;
   cursor: pointer;
   font-family: var(--font);
-  border-bottom: 1px solid var(--fg);
-  padding-bottom: 1px;
   transition: opacity 0.15s ease;
 }
 
@@ -111,6 +120,7 @@
   letter-spacing: -0.03em;
   text-transform: uppercase;
   text-align: justify;
+  font-weight: 100;
 }
 
 .st-contact-address-bold  { font-weight: 500; display: block; }
@@ -118,6 +128,7 @@
 
 .st-contact-success {
   padding: 24px 0;
+  margin: 0 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -140,7 +151,8 @@
 
 @media (max-width: 640px) {
   .st-contact-body { grid-template-columns: 1fr; }
-  .st-contact-form-col { border-right: none; padding: 0 12px; }
+  .st-contact-form-col { border-right: none; padding: 0; padding-top: 60px; }
+  .st-contact-form-label { display: none; }
   .st-contact-info-col { padding: 24px 12px; }
-  .st-contact-address { font-size: clamp(18px, 7vw, 32px); }
+  .st-contact-address { font-size: clamp(20px, 6.8vw, 36px); }
 }
