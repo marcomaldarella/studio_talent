@@ -19,10 +19,16 @@
 .st-work-list-left {
 }
 
-/* Right column — no scroll */
+/* Right column scrolls independently — left stays fixed */
 .st-work-list-right {
-  overflow-y: hidden;
+  overflow-y: auto;
   padding-bottom: 46px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.st-work-list-right::-webkit-scrollbar {
+  display: none;
 }
 
 .st-work-item {
