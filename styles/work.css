@@ -309,7 +309,7 @@
 }
 
 .st-project-footer-link:first-child {
-  margin-left: 2em;
+  margin-left: 16px;
 }
 
 .st-project-footer-link::after {
