@@ -33,9 +33,21 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
 export const ALL_PRESS_QUERY = `*[_type == "press"] | order(order asc, year desc) {
   _id,
   publication,
+  slug,
   year,
   description,
   "coverImage": coverImage.asset->url,
+  link
+}`
+
+export const PRESS_BY_SLUG_QUERY = `*[_type == "press" && slug.current == $slug][0] {
+  _id,
+  publication,
+  slug,
+  year,
+  description,
+  "coverImage": coverImage.asset->url,
+  "images": images[].asset->url,
   link
 }`
 

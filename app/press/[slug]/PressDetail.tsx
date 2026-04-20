@@ -3,52 +3,51 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import TransitionLink from '../../../components/TransitionLink'
-import type { Project } from '../../../types'
+import type { PressItem } from '../../../types'
 import '../../../styles/work.css'
 
 interface Props {
-  project: Project
-  prev: Project | null
-  next: Project | null
+  item: PressItem
+  prev: PressItem | null
+  next: PressItem | null
 }
 
-export default function ProjectDetail({ project, prev, next }: Props) {
+export default function PressDetail({ item, prev, next }: Props) {
   useEffect(() => {
     document.documentElement.style.overflow = 'hidden'
-    return () => {
-      document.documentElement.style.overflow = ''
-    }
+    return () => { document.documentElement.style.overflow = '' }
   }, [])
 
-  const images: string[] = [
-    ...(project.coverImage ? [project.coverImage] : []),
-    ...(project.images ?? []).filter(Boolean),
+  // Build image list: coverImage + gallery images
+  // If no gallery images, duplicate coverImage 3× (as requested)
+  const galleryImages: string[] = (item.images ?? []).filter(Boolean)
+  const allImages: string[] = [
+    ...(item.coverImage ? [item.coverImage] : []),
+    ...galleryImages,
   ]
-  const panels = images.length > 0 ? images : ['', '', '']
+  const panels = allImages.length > 0
+    ? (allImages.length === 1 ? [allImages[0], allImages[0], allImages[0]] : allImages)
+    : ['', '', '']
 
-  // Entrance animation ref
   const mainRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const el = mainRef.current
     if (!el) return
     const bars = Array.from(el.querySelectorAll<HTMLElement>('.st-project-bar'))
-    gsap.fromTo(
-      bars,
+    gsap.fromTo(bars,
       { y: 10, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.08, delay: 0.05 }
     )
-    const images = el.querySelector<HTMLElement>('.st-project-images')
-    if (images) {
-      gsap.fromTo(
-        images,
+    const imgs = el.querySelector<HTMLElement>('.st-project-images')
+    if (imgs) {
+      gsap.fromTo(imgs,
         { opacity: 0 },
         { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.25 }
       )
     }
   }, [])
 
-  // Progress indicator (mobile only): which panel + fill within it
   const [progress, setProgress] = useState({ panel: 0, fill: 0 })
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -78,30 +77,28 @@ export default function ProjectDetail({ project, prev, next }: Props) {
     }
   }, [panels.length])
 
-  const category = project.category ?? project.client ?? ''
-
   return (
     <main ref={mainRef} className="st-project">
       <div className="st-project-bar st-project-bar--top">
-        <span className="st-project-bar-title">{project.title}</span>
+        <span className="st-project-bar-title">{item.publication}</span>
         <div className="st-project-bar-actions">
-          {prev ? (
-            <TransitionLink href={`/work/${prev.slug.current}`} className="st-project-nav-btn" aria-label="Previous">&lt;</TransitionLink>
+          {prev?.slug ? (
+            <TransitionLink href={`/press/${prev.slug.current}`} className="st-project-nav-btn" aria-label="Previous">&lt;</TransitionLink>
           ) : (
             <span className="st-project-nav-btn st-project-nav-btn--disabled">&lt;</span>
           )}
-          {next ? (
-            <TransitionLink href={`/work/${next.slug.current}`} className="st-project-nav-btn" aria-label="Next">&gt;</TransitionLink>
+          {next?.slug ? (
+            <TransitionLink href={`/press/${next.slug.current}`} className="st-project-nav-btn" aria-label="Next">&gt;</TransitionLink>
           ) : (
             <span className="st-project-nav-btn st-project-nav-btn--disabled">&gt;</span>
           )}
-          <TransitionLink href="/work" className="st-project-close">Close</TransitionLink>
+          <TransitionLink href="/press" className="st-project-close">Close</TransitionLink>
         </div>
       </div>
 
       <div className="st-project-bar st-project-bar--sub">
-        <span className="st-project-bar-year">{project.year}</span>
-        {category && <span className="st-project-bar-category">{category}</span>}
+        <span className="st-project-bar-year">{item.year}</span>
+        {item.description && <span className="st-project-bar-category">{item.description}</span>}
       </div>
 
       <div className="st-project-images" ref={scrollRef}>
@@ -111,7 +108,7 @@ export default function ProjectDetail({ project, prev, next }: Props) {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={src}
-                alt={`${project.title} ${i + 1}`}
+                alt={`${item.publication} ${i + 1}`}
                 className="st-project-img"
               />
             ) : null}

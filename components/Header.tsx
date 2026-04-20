@@ -47,7 +47,7 @@ export default function Header() {
             {activeItem ? (
               <span className="st-header-active">
                 <span className="st-nav-label">{activeItem.label}</span>
-                <span className="st-nav-dot">■</span>
+                <span className="st-nav-dot" aria-hidden="true" />
               </span>
             ) : <span />}
             <button className="st-menu-btn" onClick={() => setOpen(true)} aria-label="Open menu">
@@ -65,8 +65,8 @@ export default function Header() {
                 href={href}
                 className={`st-nav-item${active ? ' active' : ''}`}
               >
-                {active && <span className="st-nav-dot">■</span>}
                 <span className="st-nav-label">{label}</span>
+                <span className="st-nav-dot" aria-hidden="true" />
               </TransitionLink>
             )
           })}
@@ -94,7 +94,7 @@ export default function Header() {
                 className={`st-drawer-link${active ? ' active' : ''}`}
               >
                 <span className="st-drawer-label">{label}</span>
-                {active && <span className="st-nav-dot">■</span>}
+                {active && <span className="st-nav-dot" aria-hidden="true" />}
               </TransitionLink>
             )
           })}

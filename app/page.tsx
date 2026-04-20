@@ -25,23 +25,31 @@ export default function HomePage() {
     const links = footerRef.current
       ? Array.from(footerRef.current.querySelectorAll<HTMLElement>('a'))
       : []
-    gsap.fromTo(
-      links,
-      { y: 10, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.07, delay: 0.5 }
-    )
-
     const chars = introRef.current
       ? Array.from(introRef.current.querySelectorAll<HTMLElement>('.ic'))
       : []
+
+    if (sessionStorage.getItem('st-home-animated')) {
+      gsap.set(links, { y: 0, opacity: 1 })
+      gsap.set(chars, { y: 0, opacity: 1 })
+      return
+    }
+
+    sessionStorage.setItem('st-home-animated', '1')
+
+    gsap.fromTo(
+      links,
+      { y: 10, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.65, ease: 'power3.out', stagger: 0.09, delay: 1.35 }
+    )
     gsap.set(chars, { y: 20, opacity: 0 })
     gsap.to(chars, {
       y: 0,
       opacity: 1,
-      duration: 0.6,
+      duration: 0.7,
       ease: 'power3.out',
       stagger: 0.016,
-      delay: 0.25,
+      delay: 1.3,
     })
   }, [])
 

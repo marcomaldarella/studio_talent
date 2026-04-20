@@ -23,10 +23,23 @@ export const pressSchema = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'publication', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Cover Image (shown on hover)',
       type: 'image',
       options: { hotspot: true },
+    }),
+    defineField({
+      name: 'images',
+      title: 'Gallery Images',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
     }),
     defineField({
       name: 'link',

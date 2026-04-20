@@ -18,8 +18,8 @@ export default function ContactForm() {
   return (
     <div className="st-contact-form-col">
       <div className="st-contact-form-label">
-        <span className="st-contact-dot">■</span>
-        Contact form
+        <span className="st-contact-dot" aria-hidden="true" />
+        Form
       </div>
 
       {state?.success ? (

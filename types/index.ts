@@ -15,9 +15,11 @@ export interface Project {
 export interface PressItem {
   _id: string
   publication: string
+  slug?: { current: string }
   year: number
   description?: string
   coverImage?: string
+  images?: string[]
   link?: string
 }
 

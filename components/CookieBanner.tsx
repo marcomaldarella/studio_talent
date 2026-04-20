@@ -22,7 +22,7 @@ export default function CookieBanner() {
     )
   }, [visible])
 
-  const accept = () => {
+  const dismiss = (value: string) => {
     const el = bannerRef.current
     if (el) {
       gsap.to(el, {
@@ -35,7 +35,7 @@ export default function CookieBanner() {
     } else {
       setVisible(false)
     }
-    localStorage.setItem('st-cookies', '1')
+    localStorage.setItem('st-cookies', value)
   }
 
   if (!visible) return null
@@ -47,7 +47,10 @@ export default function CookieBanner() {
       </p>
       <div className="st-cookie-actions">
         <TransitionLink href="/privacy" className="st-cookie-privacy">Privacy</TransitionLink>
-        <button onClick={accept} className="st-cookie-accept">Accetta</button>
+        <div className="st-cookie-btns">
+          <button onClick={() => dismiss('0')} className="st-cookie-reject">Rifiuta</button>
+          <button onClick={() => dismiss('1')} className="st-cookie-accept">Accetta</button>
+        </div>
       </div>
     </div>
   )

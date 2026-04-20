@@ -19,16 +19,10 @@
 .st-work-list-left {
 }
 
-/* Right column scrolls independently — left stays fixed */
+/* Right column — no scroll */
 .st-work-list-right {
-  overflow-y: auto;
-  padding-bottom: 46px; /* space for fixed footer */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.st-work-list-right::-webkit-scrollbar {
-  display: none;
+  overflow-y: hidden;
+  padding-bottom: 46px;
 }
 
 .st-work-item {
@@ -36,6 +30,29 @@
   padding: 0;
   text-decoration: none;
   color: inherit;
+}
+
+.st-work-item-title {
+  display: inline-flex;
+  align-items: center;
+}
+
+.st-work-item-title::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 1cap;
+  background: currentColor;
+  flex-shrink: 0;
+  margin-left: 0;
+  overflow: hidden;
+  transition: width 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-left 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.st-work-item:hover .st-work-item-title::after {
+  width: 1cap;
+  margin-left: 5px;
 }
 
 .st-work-item:first-child {
@@ -225,19 +242,16 @@
 
 .st-project-img-wrap {
   flex-shrink: 0;
-  width: 33.333vw;
   height: 100%;
-  position: relative;
+  width: auto;
   background: rgba(29, 29, 27, 0.06);
 }
 
-.st-project-img-wrap:last-child {
-}
-
 .st-project-img {
-  width: 100%;
   height: 100%;
-  object-fit: cover;
+  width: auto;
+  display: block;
+  object-fit: unset;
 }
 
 /* Segmented progress indicator — mobile only */
@@ -284,16 +298,30 @@
   border-bottom: 1px solid var(--fg);
   padding-bottom: 15px;
   margin-right: calc(29vw / 12 + 3em);
-  display: block;
-  transition: opacity 0.15s ease;
+  display: flex;
+  align-items: center;
 }
 
 .st-project-footer-link:first-child {
   margin-left: 2em;
 }
 
-.st-project-footer-link:hover {
-  opacity: 0.4;
+.st-project-footer-link::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 1cap;
+  background: currentColor;
+  flex-shrink: 0;
+  margin-left: 0;
+  overflow: hidden;
+  transition: width 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-left 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.st-project-footer-link:hover::after {
+  width: 1cap;
+  margin-left: 5px;
 }
 
 /* ── Mobile ── */

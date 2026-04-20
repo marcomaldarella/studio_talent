@@ -20,16 +20,30 @@
   border-bottom: 1px solid #000;
   padding-bottom: 15px;
   margin-right: calc(29vw / 12 + 3em);
-  transition: opacity 0.15s ease;
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 .st-footer-link:first-child {
   margin-left: 2em;
 }
 
-.st-footer-link:hover {
-  opacity: 0.4;
+.st-footer-link::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 1cap;
+  background: currentColor;
+  flex-shrink: 0;
+  margin-left: 0;
+  overflow: hidden;
+  transition: width 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-left 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.st-footer-link:hover::after {
+  width: 1cap;
+  margin-left: 5px;
 }
 
 @media (max-width: 768px) {

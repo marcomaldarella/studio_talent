@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
 import type { PressItem } from '../../types'
+import TransitionLink from '../../components/TransitionLink'
 import '../../styles/press.css'
 
 const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b
@@ -15,7 +16,6 @@ const PLACEHOLDERS: PressItem[] = [
 
 export default function PressList({ items }: { items: PressItem[] }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [openId,    setOpenId]    = useState<string | null>(null)
   const [displayItem, setDisplayItem] = useState<PressItem | null>(null)
 
   const listRef     = useRef<HTMLDivElement>(null)
@@ -150,8 +150,6 @@ export default function PressList({ items }: { items: PressItem[] }) {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
   }, [stopLoop])
 
-  const toggleOpen = (id: string) => setOpenId(p => p === id ? null : id)
-
   return (
     <>
       {/* Outer: position via RAF translate3d — GSAP never touches this */}
@@ -173,22 +171,19 @@ export default function PressList({ items }: { items: PressItem[] }) {
         <div className="st-press-left" />
         <div ref={listRef} className="st-press-list" onMouseLeave={handleMouseLeave}>
           {list.map((item, index) => {
-            const isOpen  = openId === item._id
-            const hasImage = !!item.coverImage
+            const slug = item.slug?.current
+            const ItemWrapper = slug ? TransitionLink : 'div'
+            const wrapperProps = slug
+              ? { href: `/press/${slug}`, className: 'st-press-item', style: { '--i': index } as React.CSSProperties }
+              : { className: 'st-press-item', style: { '--i': index } as React.CSSProperties }
 
             return (
-              <div
+              <ItemWrapper
                 key={item._id}
-                className="st-press-item"
-                style={{ '--i': index } as React.CSSProperties}
+                {...(wrapperProps as React.ComponentProps<typeof TransitionLink>)}
                 onMouseEnter={() => handleMouseEnter(item)}
               >
-                <div
-                  className="st-press-item-header"
-                  onClick={() => toggleOpen(item._id)}
-                  role="button"
-                  aria-expanded={isOpen}
-                >
+                <div className="st-press-item-header">
                   <span className="st-press-item-pub">
                     {hoveredId === item._id && <span className="st-press-active-dot">■</span>}
                     {item.publication}
@@ -201,18 +196,7 @@ export default function PressList({ items }: { items: PressItem[] }) {
                     <span className="st-press-item-desc">{item.description}</span>
                   )}
                 </div>
-
-                {hasImage && (
-                  <div className={`st-press-item-expand${isOpen ? ' is-open' : ''}`}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.coverImage!}
-                      alt={item.publication}
-                      className="st-press-item-expand-img"
-                    />
-                  </div>
-                )}
-              </div>
+              </ItemWrapper>
             )
           })}
         </div>
