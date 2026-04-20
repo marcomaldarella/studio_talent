@@ -172,31 +172,43 @@ export default function PressList({ items }: { items: PressItem[] }) {
         <div ref={listRef} className="st-press-list" onMouseLeave={handleMouseLeave}>
           {list.map((item, index) => {
             const slug = item.slug?.current
-            const ItemWrapper = slug ? TransitionLink : 'div'
-            const wrapperProps = slug
-              ? { href: `/press/${slug}`, className: 'st-press-item', style: { '--i': index } as React.CSSProperties }
-              : { className: 'st-press-item', style: { '--i': index } as React.CSSProperties }
-
-            return (
-              <ItemWrapper
-                key={item._id}
-                {...(wrapperProps as React.ComponentProps<typeof TransitionLink>)}
-                onMouseEnter={() => handleMouseEnter(item)}
-              >
+            const style = { '--i': index } as React.CSSProperties
+            const inner = (
+              <>
                 <div className="st-press-item-header">
                   <span className="st-press-item-pub">
                     {hoveredId === item._id && <span className="st-press-active-dot">■</span>}
                     {item.publication}
                   </span>
                 </div>
-
                 <div className="st-press-item-meta">
                   <span className="st-press-item-year">{item.year}</span>
                   {item.description && (
                     <span className="st-press-item-desc">{item.description}</span>
                   )}
                 </div>
-              </ItemWrapper>
+              </>
+            )
+
+            return slug ? (
+              <TransitionLink
+                key={item._id}
+                href={`/press/${slug}`}
+                className="st-press-item"
+                style={style}
+                onMouseEnter={() => handleMouseEnter(item)}
+              >
+                {inner}
+              </TransitionLink>
+            ) : (
+              <div
+                key={item._id}
+                className="st-press-item"
+                style={style}
+                onMouseEnter={() => handleMouseEnter(item)}
+              >
+                {inner}
+              </div>
             )
           })}
         </div>
