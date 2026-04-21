@@ -3,7 +3,10 @@ import ContactForm from './ContactForm'
 import ContactAddress from './ContactAddress'
 import '../../styles/contact.css'
 
-export const metadata: Metadata = { title: 'Contact' }
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Get in touch with Onira for collaborations, press inquiries, and film submissions.',
+}
 
 export default function ContactPage() {
   return (

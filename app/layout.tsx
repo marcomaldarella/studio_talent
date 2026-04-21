@@ -5,29 +5,29 @@ import FooterConditional from '../components/FooterConditional'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s — Studio Talent',
-    default: 'Studio Talent',
+    template: '%s — Onira',
+    default: 'Onira — Independent Film Production',
   },
-  description: 'Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
-  metadataBase: new URL('https://studiotalent.com'),
+  description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+  metadataBase: new URL('https://onira.one'),
   openGraph: {
-    siteName: 'Studio Talent',
+    siteName: 'Onira',
     type: 'website',
-    title: 'Studio Talent',
-    description: 'Studio di architettura ed interior. Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
+    title: 'Onira — Independent Film Production',
+    description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Studio Talent',
+        alt: 'Onira — Independent Film Production',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Studio Talent',
-    description: 'Studio di architettura ed interior. Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
+    title: 'Onira — Independent Film Production',
+    description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
     images: ['/twitter-card.png'],
   },
   icons: {
@@ -40,6 +40,20 @@ export const metadata: Metadata = {
   manifest: '/manifest.webmanifest',
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Onira',
+  url: 'https://onira.one',
+  logo: 'https://onira.one/logo.svg',
+  description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+  founders: [
+    { '@type': 'Person', name: 'Filippo Schiaffino' },
+    { '@type': 'Person', name: 'Rodolfo L. Masedari' },
+  ],
+  sameAs: [],
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -47,6 +61,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body>
         <SiteShell>{children}</SiteShell>
         <FooterConditional />

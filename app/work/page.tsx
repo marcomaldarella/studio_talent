@@ -6,7 +6,10 @@ import WorkList from './WorkList'
 import '../../styles/work.css'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Work' }
+export const metadata: Metadata = {
+  title: 'Films',
+  description: 'Browse all films produced by Onira — independent documentaries and short films that challenge the human experience.',
+}
 
 const PLACEHOLDERS = [
   { _id: 'p1', title: 'LILITH', year: 2026, category: 'Interior' },

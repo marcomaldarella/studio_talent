@@ -12,7 +12,16 @@ interface Props { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const item: PressItem | null = await client.fetch(PRESS_BY_SLUG_QUERY, { slug }).catch(() => null)
-  return item ? { title: item.publication } : { title: 'Press' }
+  if (!item) return { title: 'Press' }
+  return {
+    title: item.publication,
+    description: item.description ?? `${item.publication} — Press coverage of an Onira production, ${item.year}.`,
+    openGraph: {
+      title: `${item.publication} — Onira Press`,
+      description: item.description ?? `${item.publication} — Press coverage of an Onira production, ${item.year}.`,
+      ...(item.coverImage ? { images: [{ url: item.coverImage, width: 1200, height: 630, alt: item.publication }] } : {}),
+    },
+  }
 }
 
 export default async function PressDetailPage({ params }: Props) {

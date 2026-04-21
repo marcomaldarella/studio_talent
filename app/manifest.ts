@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Studio Talent',
-    short_name: 'Studio Talent',
-    description: 'Studio di architettura ed interior.',
+    name: 'Onira',
+    short_name: 'Onira',
+    description: 'Independent film production studio.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ECEBE7',
