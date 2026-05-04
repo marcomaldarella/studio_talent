@@ -6,9 +6,10 @@ import TransitionLink from '../components/TransitionLink'
 import '../styles/home.css'
 
 const INTRO_SEGMENTS: { text: string; cls: string; br?: boolean; mobileBr?: boolean }[] = [
-  { text: 'Lorem ipsum dolor sit', cls: 'st-intro-light', br: true },
-  { text: 'L\u2019architettura diventa interior design. ', cls: 'st-intro-bold' },
-  { text: 'Studiamo e progettiamo lo spazio su misura per te.', cls: 'st-intro-light' },
+  { text: 'C\u2019\u00e8 un momento in cui uno spazio cambia.', cls: 'st-intro-light', br: true },
+  { text: 'Inizia a parlare di chi lo vive.', cls: 'st-intro-light', br: true },
+  { text: 'Diventa racconto.', cls: 'st-intro-bold', br: true },
+  { text: 'Studio Talent costruisce equilibrio tra identit\u00e0 e forma, tra ci\u00f2 che \u00e8 e ci\u00f2 che pu\u00f2 diventare.', cls: 'st-intro-light' },
 ]
 
 export default function HomePage() {

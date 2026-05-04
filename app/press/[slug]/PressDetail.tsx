@@ -18,13 +18,9 @@ export default function PressDetail({ item, prev, next }: Props) {
     return () => { document.documentElement.style.overflow = '' }
   }, [])
 
-  // Build image list: coverImage + gallery images
-  // If no gallery images, duplicate coverImage 3× (as requested)
-  const galleryImages: string[] = (item.images ?? []).filter(Boolean)
-  const allImages: string[] = [
-    ...(item.coverImage ? [item.coverImage] : []),
-    ...galleryImages,
-  ]
+  // images[] contains all photos (including cover); fall back to coverImage if empty
+  const allImages: string[] = (item.images ?? []).filter(Boolean)
+  if (allImages.length === 0 && item.coverImage) allImages.push(item.coverImage)
   const panels = allImages.length > 0
     ? (allImages.length === 1 ? [allImages[0], allImages[0], allImages[0]] : allImages)
     : ['', '', '']

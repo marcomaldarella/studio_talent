@@ -35,6 +35,11 @@ export const projectSchema = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'city',
+      title: 'City',
+      type: 'string',
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',

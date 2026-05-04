@@ -6,22 +6,22 @@ import '../../styles/about.css'
 
 const BLOCKS = [
   <>
-    <span className="st-about-text-light">Lorem ipsum dolor sit </span>
-    <span className="st-about-text-bold">L&rsquo;architettura diventa interior design.</span>
+    <span className="st-about-text-light">Studio Talent si muove </span>
+    <span className="st-about-text-bold">su un confine sottile.</span>
     {' '}
-    <span className="st-about-text-light">Studiamo e progettiamo lo spazio su misura per te.</span>
+    <span className="st-about-text-light">Tra architettura e racconto. Tra funzione e percezione.</span>
   </>,
   <>
-    <span className="st-about-text-light">Lorem ipsum dolor sit </span>
-    <span className="st-about-text-bold">L&rsquo;architettura diventa interior design.</span>
+    <span className="st-about-text-light">Dialoga con i luoghi, ma soprattutto </span>
+    <span className="st-about-text-bold">con chi li abiterà.</span>
     {' '}
-    <span className="st-about-text-light">Studiamo e progettiamo lo spazio su misura per te.</span>
+    <span className="st-about-text-light">Perché ogni progetto nasce, prima di tutto, come relazione.</span>
   </>,
   <>
-    <span className="st-about-text-light">Lorem ipsum dolor sit </span>
-    <span className="st-about-text-bold">L&rsquo;architettura diventa interior design.</span>
+    <span className="st-about-text-light">E ogni spazio riuscito è quello in cui </span>
+    <span className="st-about-text-bold">ci si riconosce, senza bisogno di spiegazioni.</span>
     {' '}
-    <span className="st-about-text-light">Studiamo e progettiamo lo spazio su misura per te.</span>
+    <span className="st-about-text-light">Il talento prende forma così: nell&rsquo;incontro con chi è disposto ad aprirsi, a farsi leggere, e a lasciare che lo spazio risponda.</span>
   </>,
 ]
 

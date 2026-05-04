@@ -5,6 +5,7 @@ export interface Project {
   year: number
   category: string
   client?: string
+  city?: string
   description?: string
   coverImage?: string
   images?: string[]
