@@ -35,13 +35,11 @@ export default function PressDetail({ item, prev, next }: Props) {
       { y: 10, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.08, delay: 0.05 }
     )
-    const imgs = el.querySelector<HTMLElement>('.st-project-images')
-    if (imgs) {
-      gsap.fromTo(imgs,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.25 }
-      )
-    }
+    const wraps = Array.from(el.querySelectorAll<HTMLElement>('.st-project-img-wrap'))
+    gsap.fromTo(wraps,
+      { y: 24, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.65, ease: 'power3.out', stagger: 0.2, delay: 0.2 }
+    )
   }, [])
 
   const [progress, setProgress] = useState({ panel: 0, fill: 0 })
