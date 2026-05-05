@@ -15,10 +15,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!item) return { title: 'Press' }
   return {
     title: item.publication,
-    description: item.description ?? `${item.publication} — Press coverage of an Onira production, ${item.year}.`,
+    description: item.description ?? `${item.publication} — Press coverage of a Studio Talent production, ${item.year}.`,
     openGraph: {
-      title: `${item.publication} — Onira Press`,
-      description: item.description ?? `${item.publication} — Press coverage of an Onira production, ${item.year}.`,
+      title: `${item.publication} — Studio Talent Press`,
+      description: item.description ?? `${item.publication} — Press coverage of a Studio Talent production, ${item.year}.`,
       ...(item.coverImage ? { images: [{ url: item.coverImage, width: 1200, height: 630, alt: item.publication }] } : {}),
     },
   }

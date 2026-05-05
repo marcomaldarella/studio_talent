@@ -8,7 +8,7 @@ import '../../styles/work.css'
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Films',
-  description: 'Browse all films produced by Onira — independent documentaries and short films that challenge the human experience.',
+  description: 'Browse all films produced by Studio Talent — independent documentaries and short films that challenge the human experience.',
 }
 
 const PLACEHOLDERS = [

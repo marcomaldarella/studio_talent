@@ -358,5 +358,12 @@
 
   .st-project-img-wrap {
     width: 85vw;
+    height: auto;
+    background: transparent;
+  }
+
+  .st-project-img {
+    width: 100%;
+    height: auto;
   }
 }

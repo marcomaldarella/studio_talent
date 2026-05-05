@@ -69,7 +69,7 @@
 
 /* border-top is on the static wrapper, never on the animated element */
 .st-home-text {
-  padding: 20px 16px 18px;
+  padding: 20px 16px 18px 0;
 }
 
 .st-home-intro {
@@ -77,7 +77,7 @@
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  text-align: justify;
+  text-align: left;
 }
 
 .st-intro-light { font-weight: 100; }
@@ -97,8 +97,10 @@
   .st-home-left {
     display: none;
   }
+  .st-home-text {
+    padding-left: 16px;
+  }
   .st-home-intro {
     font-size: clamp(20px, 6.8vw, 36px);
-    text-align: justify;
   }
 }

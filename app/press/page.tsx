@@ -7,7 +7,7 @@ import PressList from './PressList'
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Press',
-  description: 'Press coverage and media mentions of Onira films and productions.',
+  description: 'Press coverage and media mentions of Studio Talent films and productions.',
 }
 
 export default async function PressPage() {

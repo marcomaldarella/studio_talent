@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Onira',
-    short_name: 'Onira',
+    name: 'Studio Talent',
+    short_name: 'Studio Talent',
     description: 'Independent film production studio.',
     start_url: '/',
     display: 'standalone',

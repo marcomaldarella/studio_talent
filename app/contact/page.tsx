@@ -5,7 +5,7 @@ import '../../styles/contact.css'
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Get in touch with Onira for collaborations, press inquiries, and film submissions.',
+  description: 'Get in touch with Studio Talent for collaborations, press inquiries, and film submissions.',
 }
 
 export default function ContactPage() {

@@ -32,12 +32,16 @@
 .st-about-block {
 }
 
+.st-about-block:first-child .st-about-text {
+  padding-top: 20px;
+}
+
 .st-about-text {
   font-size: clamp(24px, 4vw, 60px);
   line-height: 0.92;
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  text-align: justify;
+  text-align: left;
   padding-top: 60vh;
   padding-bottom: 20px;
   padding-right: 0.5em;

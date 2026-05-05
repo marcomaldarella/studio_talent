@@ -5,29 +5,29 @@ import FooterConditional from '../components/FooterConditional'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s — Onira',
-    default: 'Onira — Independent Film Production',
+    template: '%s — Studio Talent',
+    default: 'Studio Talent — Independent Film Production',
   },
-  description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+  description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
   metadataBase: new URL('https://onira.one'),
   openGraph: {
-    siteName: 'Onira',
+    siteName: 'Studio Talent',
     type: 'website',
-    title: 'Onira — Independent Film Production',
-    description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+    title: 'Studio Talent — Independent Film Production',
+    description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Onira — Independent Film Production',
+        alt: 'Studio Talent — Independent Film Production',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Onira — Independent Film Production',
-    description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+    title: 'Studio Talent — Independent Film Production',
+    description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
     images: ['/twitter-card.png'],
   },
   icons: {
@@ -43,10 +43,10 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Onira',
+  name: 'Studio Talent',
   url: 'https://onira.one',
   logo: 'https://onira.one/logo.svg',
-  description: 'Onira is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+  description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
   founders: [
     { '@type': 'Person', name: 'Filippo Schiaffino' },
     { '@type': 'Person', name: 'Rodolfo L. Masedari' },
