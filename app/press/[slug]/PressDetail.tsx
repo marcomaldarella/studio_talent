@@ -102,6 +102,8 @@ export default function PressDetail({ item, prev, next }: Props) {
                 src={src}
                 alt={`${item.publication} ${i + 1}`}
                 className="st-project-img"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchPriority={i === 0 ? 'high' : 'low'}
               />
             ) : null}
           </div>

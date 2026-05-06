@@ -48,6 +48,7 @@ export default function WorkList({ items }: Props) {
                 width={400}
                 height={540}
                 className="st-work-item-thumb"
+                priority={i === 0}
               />
             ) : (
               <div className="st-work-item-thumb" />

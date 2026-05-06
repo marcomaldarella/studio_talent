@@ -113,6 +113,8 @@ export default function ProjectDetail({ project, prev, next }: Props) {
                 src={src}
                 alt={`${project.title} ${i + 1}`}
                 className="st-project-img"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchPriority={i === 0 ? 'high' : 'low'}
               />
             ) : null}
           </div>
