@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Bodoni+Moda:opsz,wght@6..96,400..900&display=swap');
-
 :root {
   --bg: #ECEBE7;
   --fg: #1D1D1B;
-  --font: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --font: var(--font-inter-tight), 'Helvetica Neue', Arial, sans-serif;
   --left: 47%;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
