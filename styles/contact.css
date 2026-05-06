@@ -159,7 +159,7 @@ form > .st-contact-field:nth-child(4)::after { animation-delay: 0.29s; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 20px 16px 18px;
+  padding: 20px 16px 18px 0;
 }
 
 .st-contact-address {
