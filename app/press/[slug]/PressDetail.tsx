@@ -21,7 +21,9 @@ export default function PressDetail({ item, prev, next }: Props) {
   // images[] contains all photos (including cover); fall back to coverImage if empty
   const allImages: string[] = (item.images ?? []).filter(Boolean)
   if (allImages.length === 0 && item.coverImage) allImages.push(item.coverImage)
-  const panels = allImages.length > 0 ? allImages : ['']
+  const panels = allImages.length > 0
+    ? (allImages.length === 1 ? [allImages[0], allImages[0], allImages[0]] : allImages)
+    : ['', '', '']
 
   const mainRef = useRef<HTMLElement>(null)
 

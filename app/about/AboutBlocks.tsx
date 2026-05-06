@@ -37,10 +37,8 @@ export default function AboutBlocks() {
   return (
     <div ref={containerRef} className="st-about-right">
       {BLOCKS.map((content, i) => (
-        <div key={i} className="st-about-hero">
-          <div className="st-about-block">
-            <p className="st-about-text">{content}</p>
-          </div>
+        <div key={i} className="st-about-block">
+          <p className="st-about-text">{content}</p>
         </div>
       ))}
     </div>
