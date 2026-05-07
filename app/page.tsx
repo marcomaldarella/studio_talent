@@ -6,7 +6,7 @@ import TransitionLink from '../components/TransitionLink'
 import '../styles/home.css'
 
 const INTRO_SEGMENTS: { text: string; cls: string; br?: boolean; mobileBr?: boolean }[] = [
-  { text: 'C\u2019\u00e8 un momento in cui uno spazio cambia.', cls: 'st-intro-light', br: true },
+  { text: 'C\u2019\u00e8 un momento in cui uno spazio cambia.', cls: 'st-intro-bold', br: true },
   { text: 'Inizia a parlare di chi lo vive.', cls: 'st-intro-light', br: true },
   { text: 'Diventa racconto.', cls: 'st-intro-bold', br: true },
   { text: 'Studio Talent costruisce equilibrio tra identit\u00e0 e forma, tra ci\u00f2 che \u00e8 e ci\u00f2 che pu\u00f2 diventare.', cls: 'st-intro-light' },
