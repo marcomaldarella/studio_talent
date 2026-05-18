@@ -19,7 +19,7 @@
 .st-privacy-left {}
 
 .st-privacy-right {
-  padding: 40px 16px 60px;
+  padding: 40px 16px 60px 0;
   display: flex;
   flex-direction: column;
   gap: 0;
