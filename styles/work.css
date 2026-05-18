@@ -66,6 +66,9 @@
 }
 
 .st-work-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   padding: 10px 0 6px;
   margin-right: 2em;
   position: relative;
@@ -118,8 +121,6 @@
   color: #000;
   letter-spacing: 0;
   text-transform: uppercase;
-  flex: 1;
-  text-align: center;
 }
 
 .st-work-item-category {
