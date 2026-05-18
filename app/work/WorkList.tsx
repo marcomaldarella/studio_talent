@@ -38,6 +38,7 @@ export default function WorkList({ items }: Props) {
           </div>
           <div className="st-work-item-meta">
             <span className="st-work-item-year">{p.year}</span>
+            {p.city && <span className="st-work-item-city">{p.city}</span>}
             {p.category && <span className="st-work-item-category">{p.category}</span>}
           </div>
           <div className="st-work-item-thumb-wrap">

@@ -111,6 +111,17 @@
   letter-spacing: 0;
 }
 
+.st-work-item-city {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  flex: 1;
+  text-align: center;
+}
+
 .st-work-item-category {
   font-family: var(--font);
   font-size: 12px;

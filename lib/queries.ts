@@ -4,6 +4,7 @@ export const ALL_PROJECTS_QUERY = `*[_type == "project"] | order(year desc) {
   slug,
   year,
   category,
+  city,
   "coverImage": coverImage.asset->url,
   featured
 }`
