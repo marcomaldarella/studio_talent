@@ -20,10 +20,10 @@ export default function ProjectDetail({ project, prev, next }: Props) {
     }
   }, [])
 
-  const images: string[] = [
-    ...(project.coverImage ? [project.coverImage] : []),
-    ...(project.images ?? []).filter(Boolean),
-  ]
+  const galleryImages = (project.images ?? []).filter(Boolean)
+  const images: string[] = galleryImages.length > 0
+    ? galleryImages
+    : (project.coverImage ? [project.coverImage] : [])
   const panels = images.length > 0 ? images : ['', '', '']
 
   // Entrance animation ref
