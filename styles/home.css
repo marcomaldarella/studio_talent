@@ -102,6 +102,5 @@
   }
   .st-home-intro {
     font-size: clamp(20px, 6.8vw, 36px);
-    line-height: 1.92;
   }
 }
