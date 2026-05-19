@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Studio Talent',
     short_name: 'Studio Talent',
-    description: 'Independent film production studio.',
+    description: 'Architettura e Interior Design.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ECEBE7',
