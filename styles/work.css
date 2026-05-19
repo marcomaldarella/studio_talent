@@ -190,7 +190,8 @@
   letter-spacing: 0;
 }
 
-.st-project-bar-category {
+.st-project-bar-category,
+.st-project-bar-city {
   font-family: var(--font);
   font-size: 12px;
   font-weight: 500;

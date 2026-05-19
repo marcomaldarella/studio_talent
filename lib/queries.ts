@@ -24,6 +24,7 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
   slug,
   year,
   category,
+  city,
   client,
   description,
   "coverImage": coverImage.asset->url,

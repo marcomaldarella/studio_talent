@@ -34,12 +34,11 @@ export default function WorkList({ items }: Props) {
           style={{ '--i': i } as React.CSSProperties}
         >
           <div className="st-work-item-header">
-            <span className="st-work-item-title">{p.title}</span>
+            <span className="st-work-item-title">{p.category}</span>
             {p.city && <span className="st-work-item-city">{p.city}</span>}
           </div>
           <div className="st-work-item-meta">
             <span className="st-work-item-year">{p.year}</span>
-            {p.category && <span className="st-work-item-category">{p.category}</span>}
           </div>
           <div className="st-work-item-thumb-wrap">
             {p.coverImage ? (

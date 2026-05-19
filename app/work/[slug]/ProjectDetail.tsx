@@ -83,8 +83,9 @@ export default function ProjectDetail({ project, prev, next }: Props) {
   return (
     <main ref={mainRef} className="st-project">
       <div className="st-project-bar st-project-bar--top">
-        <span className="st-project-bar-title">{project.title}</span>
+        <span className="st-project-bar-title">{project.category}</span>
         <div className="st-project-bar-actions">
+          {project.city && <span className="st-project-bar-city">{project.city}</span>}
           {prev ? (
             <TransitionLink href={`/work/${prev.slug.current}`} className="st-project-nav-btn" aria-label="Previous">&lt;</TransitionLink>
           ) : (
@@ -101,7 +102,6 @@ export default function ProjectDetail({ project, prev, next }: Props) {
 
       <div className="st-project-bar st-project-bar--sub">
         <span className="st-project-bar-year">{project.year}</span>
-        {category && <span className="st-project-bar-category">{category}</span>}
       </div>
 
       <div className="st-project-images" ref={scrollRef}>
