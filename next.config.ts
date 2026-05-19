@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
         destination: '/press/mark-fisher-screening',
         permanent: true,
       },
+      {
+        source: '/contactus',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
 };
