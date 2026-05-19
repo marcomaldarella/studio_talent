@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/studio/',
       },
     ],
-    sitemap: 'https://onira.one/sitemap.xml',
+    sitemap: 'https://www.studiotalent.it/sitemap.xml',
   }
 }
