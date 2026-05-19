@@ -1,6 +1,6 @@
 'use server'
 
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 export interface ContactResult {
   success: boolean
@@ -22,29 +22,19 @@ export async function sendContactEmail(_: ContactResult | null, formData: FormDa
     return { success: false, error: 'Inserisci un indirizzo email valido.' }
   }
 
-  // If SMTP not configured, log and return success (dev mode)
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
+  if (!process.env.RESEND_API_KEY) {
     console.log('[Contact Form]', { nome, azienda, email, messaggio })
     return { success: true }
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
-    await transporter.sendMail({
-      from: `"Studio Talent — Form" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL ?? 'info@studiotalent.com',
+    await resend.emails.send({
+      from: 'Studio Talent <info@studiotalent.it>',
+      to: 'info@studiotalent.it',
       replyTo: email,
       subject: `Nuovo messaggio da ${nome}${azienda ? ` · ${azienda}` : ''}`,
-      text: `Nome: ${nome}\nAzienda: ${azienda || '—'}\nEmail: ${email}\n\n${messaggio}`,
       html: `
         <p><strong>Nome:</strong> ${nome}</p>
         <p><strong>Azienda:</strong> ${azienda || '—'}</p>
@@ -56,7 +46,7 @@ export async function sendContactEmail(_: ContactResult | null, formData: FormDa
 
     return { success: true }
   } catch (err) {
-    console.error('[Contact Form] Email error:', err)
-    return { success: false, error: 'Errore nell\'invio. Riprova più tardi.' }
+    console.error('[Contact Form] Resend error:', err)
+    return { success: false, error: "Errore nell'invio. Riprova più tardi." }
   }
 }
