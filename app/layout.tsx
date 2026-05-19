@@ -15,28 +15,28 @@ const interTight = Inter_Tight({
 export const metadata: Metadata = {
   title: {
     template: '%s — Studio Talent',
-    default: 'Studio Talent — Independent Film Production',
+    default: 'Studio Talent — Architettura e Interior Design',
   },
-  description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
-  metadataBase: new URL('https://onira.one'),
+  description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
+  metadataBase: new URL('https://www.studiotalent.it'),
   openGraph: {
     siteName: 'Studio Talent',
     type: 'website',
-    title: 'Studio Talent — Independent Film Production',
-    description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+    title: 'Studio Talent — Architettura e Interior Design',
+    description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Studio Talent — Independent Film Production',
+        alt: 'Studio Talent — Architettura e Interior Design',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Studio Talent — Independent Film Production',
-    description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
+    title: 'Studio Talent — Architettura e Interior Design',
+    description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
     images: ['/twitter-card.png'],
   },
   icons: {
@@ -53,13 +53,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Studio Talent',
-  url: 'https://onira.one',
-  logo: 'https://onira.one/logo.svg',
-  description: 'Studio Talent is an independent film production studio supporting bold, thought-provoking artistic voices that pierce at the heart of the human experience.',
-  founders: [
-    { '@type': 'Person', name: 'Filippo Schiaffino' },
-    { '@type': 'Person', name: 'Rodolfo L. Masedari' },
-  ],
+  url: 'https://www.studiotalent.it',
+  description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
   sameAs: [],
 }
 
