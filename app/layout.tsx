@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     template: '%s — Studio Talent',
     default: 'Studio Talent — Architettura e Interior Design',
   },
-  description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
+  description: 'Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
   metadataBase: new URL('https://www.studiotalent.it'),
   openGraph: {
     siteName: 'Studio Talent',
     type: 'website',
     title: 'Studio Talent — Architettura e Interior Design',
-    description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
+    description: 'Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
     images: [
       {
         url: '/og-image.png',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Studio Talent — Architettura e Interior Design',
-    description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
+    description: 'Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
     images: ['/twitter-card.png'],
   },
   icons: {
@@ -54,7 +54,7 @@ const jsonLd = {
   '@type': 'Organization',
   name: 'Studio Talent',
   url: 'https://www.studiotalent.it',
-  description: 'Studio Talent ricerca l\'equilibrio tra identità e forma, tra ciò che è e ciò che può diventare.',
+  description: 'Progettiamo e realizziamo edifici come persone, dalle funzioni più antiche alla luce degli ambienti di oggi.',
   sameAs: [],
 }
 
