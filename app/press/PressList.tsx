@@ -37,11 +37,20 @@ export default function PressList({ items }: { items: PressItem[] }) {
   useEffect(() => {
     const el = listRef.current
     if (!el) return
-    gsap.fromTo(
-      Array.from(el.querySelectorAll<HTMLElement>('.st-press-item')),
-      { y: 14, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.04, delay: 0.05 }
-    )
+    const pressItems = Array.from(el.querySelectorAll<HTMLElement>('.st-press-item'))
+    const returnSlug = sessionStorage.getItem('press_return_slug')
+    if (returnSlug) {
+      sessionStorage.removeItem('press_return_slug')
+      gsap.set(pressItems, { y: 0, opacity: 1 })
+      const target = el.querySelector<HTMLElement>(`[data-slug="${returnSlug}"]`)
+      if (target) target.scrollIntoView({ behavior: 'instant', block: 'center' })
+    } else {
+      gsap.fromTo(
+        pressItems,
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.04, delay: 0.05 }
+      )
+    }
   }, [])
 
   // ─── Global mouse tracker
@@ -195,8 +204,10 @@ export default function PressList({ items }: { items: PressItem[] }) {
                 key={item._id}
                 href={`/press/${slug}`}
                 className="st-press-item"
+                data-slug={slug}
                 style={style}
                 onMouseEnter={() => handleMouseEnter(item)}
+                onClick={() => sessionStorage.setItem('press_return_slug', slug)}
               >
                 {inner}
               </TransitionLink>

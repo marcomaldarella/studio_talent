@@ -1,6 +1,6 @@
 'use server'
 
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 
 export interface ContactResult {
   success: boolean
@@ -22,16 +22,19 @@ export async function sendContactEmail(_: ContactResult | null, formData: FormDa
     return { success: false, error: 'Inserisci un indirizzo email valido.' }
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    console.log('[Contact Form]', { nome, azienda, email, messaggio })
-    return { success: true }
-  }
-
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    const transporter = nodemailer.createTransport({
+      host: process.env.BREVO_SMTP_HOST,
+      port: Number(process.env.BREVO_SMTP_PORT),
+      secure: false,
+      auth: {
+        user: process.env.BREVO_SMTP_USER,
+        pass: process.env.BREVO_SMTP_PASS,
+      },
+    })
 
-    await resend.emails.send({
-      from: 'Studio Talent <info@studiotalent.it>',
+    await transporter.sendMail({
+      from: '"Studio Talent" <studiotalent06@gmail.com>',
       to: 'info@studiotalent.it',
       replyTo: email,
       subject: `Nuovo messaggio da ${nome}${azienda ? ` · ${azienda}` : ''}`,
@@ -46,7 +49,7 @@ export async function sendContactEmail(_: ContactResult | null, formData: FormDa
 
     return { success: true }
   } catch (err) {
-    console.error('[Contact Form] Resend error:', err)
+    console.error('[Contact Form] SMTP error:', err)
     return { success: false, error: "Errore nell'invio. Riprova più tardi." }
   }
 }

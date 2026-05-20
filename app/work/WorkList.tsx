@@ -17,11 +17,19 @@ export default function WorkList({ items }: Props) {
     const el = listRef.current
     if (!el) return
     const workItems = Array.from(el.querySelectorAll<HTMLElement>('.st-work-item'))
-    gsap.fromTo(
-      workItems,
-      { y: 16, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.08, delay: 0.05 }
-    )
+    const returnSlug = sessionStorage.getItem('work_return_slug')
+    if (returnSlug) {
+      sessionStorage.removeItem('work_return_slug')
+      gsap.set(workItems, { y: 0, opacity: 1 })
+      const target = el.querySelector<HTMLElement>(`[data-slug="${returnSlug}"]`)
+      if (target) target.scrollIntoView({ behavior: 'instant', block: 'center' })
+    } else {
+      gsap.fromTo(
+        workItems,
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.08, delay: 0.05 }
+      )
+    }
   }, [])
 
   return (
@@ -31,7 +39,9 @@ export default function WorkList({ items }: Props) {
           key={p._id}
           href={p.slug ? `/work/${p.slug.current}` : '#'}
           className="st-work-item"
+          data-slug={p.slug?.current}
           style={{ '--i': i } as React.CSSProperties}
+          onClick={() => { if (p.slug?.current) sessionStorage.setItem('work_return_slug', p.slug.current) }}
         >
           <div className="st-work-item-header">
             <span className="st-work-item-title">{p.category}</span>
