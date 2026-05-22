@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter_Tight } from 'next/font/google'
 import './globals.css'
 import SiteShell from '../components/SiteShell'
@@ -11,6 +11,10 @@ const interTight = Inter_Tight({
   variable: '--font-inter-tight',
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: {

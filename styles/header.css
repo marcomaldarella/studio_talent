@@ -3,6 +3,7 @@
   top: 0;
   z-index: 100;
   background: var(--bg);
+  padding-top: env(safe-area-inset-top);
 }
 
 .st-brand {
@@ -138,6 +139,8 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s ease;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .st-drawer.is-open {
