@@ -60,11 +60,11 @@ img {
      content scrolls behind Safari's glass address bar */
   html:has(.st-work-list-right),
   html:has(.st-press-list) {
-    height: calc(100lvh + env(safe-area-inset-bottom));
+    height: calc(100lvh + env(safe-area-inset-bottom) + 40px);
   }
   body:has(.st-work-list-right),
   body:has(.st-press-list) {
-    height: calc(100lvh + env(safe-area-inset-bottom));
+    height: calc(100lvh + env(safe-area-inset-bottom) + 40px);
   }
 }
 
