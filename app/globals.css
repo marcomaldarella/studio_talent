@@ -54,3 +54,10 @@ img {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
 }
+
+@media (max-width: 640px) {
+  html, body {
+    height: calc(100% + env(safe-area-inset-bottom));
+  }
+}
+

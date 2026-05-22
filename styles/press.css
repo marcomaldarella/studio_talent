@@ -181,6 +181,9 @@
 
 @media (max-width: 640px) {
   .st-press-float-pos { display: none; }
+  .st-press-list {
+    padding-bottom: calc(46px + env(safe-area-inset-bottom));
+  }
 }
 
 @media (max-width: 640px) {

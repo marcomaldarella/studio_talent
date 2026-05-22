@@ -348,6 +348,9 @@
   .st-work-list {
     grid-template-columns: 1fr;
   }
+  .st-work-list-right {
+    padding-bottom: calc(46px + env(safe-area-inset-bottom));
+  }
   .st-work-list-left { display: none; }
 
   .st-work-item-header,
