@@ -13,7 +13,10 @@
 }
 
 html {
-  height: 100%;
+  /* 100svh = small viewport height: stable across navigations regardless of
+     Safari address bar state. Fixes "shorter pages on back-navigation" on iOS.
+     Desktop: svh == vh (no mobile chrome), zero side-effects. */
+  height: 100svh;
 }
 
 body {
