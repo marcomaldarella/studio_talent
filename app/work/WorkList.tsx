@@ -17,14 +17,22 @@ export default function WorkList({ items }: Props) {
     const el = listRef.current
     if (!el) return
 
-    // GSAP entrance — runs immediately
     const workItems = Array.from(el.querySelectorAll<HTMLElement>('.st-work-item'))
     const returnSlug = sessionStorage.getItem('work_return_slug')
+
+    // scrollTop to restore after the iOS layer rebuild (350ms timer).
+    // Default 0 = normal navigation. When returning from a project, we use
+    // the exact position saved at click time — not scrollIntoView, because
+    // the scroll layer is broken at this point and the value would be lost
+    // when the timer resets scrollTop.
+    let restoreTop = 0
+
     if (returnSlug) {
       sessionStorage.removeItem('work_return_slug')
+      const saved = parseInt(sessionStorage.getItem('work_scroll_top') ?? '0', 10)
+      sessionStorage.removeItem('work_scroll_top')
+      restoreTop = isNaN(saved) ? 0 : saved
       gsap.set(workItems, { y: 0, opacity: 1 })
-      const target = el.querySelector<HTMLElement>(`[data-slug="${returnSlug}"]`)
-      if (target) target.scrollIntoView({ behavior: 'instant', block: 'center' })
     } else {
       gsap.fromTo(
         workItems,
@@ -34,15 +42,15 @@ export default function WorkList({ items }: Props) {
     }
 
     // iOS Safari discards the scroll compositing layer when a position:fixed
-    // fullscreen drawer is shown. The drawer becomes display:none at ~260ms
-    // after navigation. Wait 350ms then force a teardown + rebuild of the layer.
+    // fullscreen element (drawer, curtain) is shown. Wait for those elements
+    // to become display:none (~260ms), then force a layer teardown + rebuild.
     let raf1 = 0, raf2 = 0
     const timer = setTimeout(() => {
       el.style.overflowY = 'hidden'
       raf1 = requestAnimationFrame(() => {
         raf2 = requestAnimationFrame(() => {
           el.style.overflowY = ''
-          el.scrollTop = 0
+          el.scrollTop = restoreTop
         })
       })
     }, 350)
@@ -63,7 +71,13 @@ export default function WorkList({ items }: Props) {
           className="st-work-item"
           data-slug={p.slug?.current}
           style={{ '--i': i } as React.CSSProperties}
-          onClick={() => { if (p.slug?.current) sessionStorage.setItem('work_return_slug', p.slug.current) }}
+          onClick={() => {
+            if (p.slug?.current) {
+              sessionStorage.setItem('work_return_slug', p.slug.current)
+              // Save exact scroll position now (layer is still working at click time)
+              sessionStorage.setItem('work_scroll_top', String(listRef.current?.scrollTop ?? 0))
+            }
+          }}
         >
           <div className="st-work-item-header">
             <span className="st-work-item-title">{p.category}</span>

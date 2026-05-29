@@ -38,14 +38,16 @@ export default function PressList({ items }: { items: PressItem[] }) {
     const el = listRef.current
     if (!el) return
 
-    // GSAP entrance — runs immediately
     const pressItems = Array.from(el.querySelectorAll<HTMLElement>('.st-press-item'))
     const returnSlug = sessionStorage.getItem('press_return_slug')
+    let restoreTop = 0
+
     if (returnSlug) {
       sessionStorage.removeItem('press_return_slug')
+      const saved = parseInt(sessionStorage.getItem('press_scroll_top') ?? '0', 10)
+      sessionStorage.removeItem('press_scroll_top')
+      restoreTop = isNaN(saved) ? 0 : saved
       gsap.set(pressItems, { y: 0, opacity: 1 })
-      const target = el.querySelector<HTMLElement>(`[data-slug="${returnSlug}"]`)
-      if (target) target.scrollIntoView({ behavior: 'instant', block: 'center' })
     } else {
       gsap.fromTo(
         pressItems,
@@ -55,15 +57,15 @@ export default function PressList({ items }: { items: PressItem[] }) {
     }
 
     // iOS Safari discards the scroll compositing layer when a position:fixed
-    // fullscreen drawer is shown. The drawer becomes display:none at ~260ms
-    // after navigation. Wait 350ms then force a teardown + rebuild of the layer.
+    // fullscreen element (drawer, curtain) is shown. Wait for those elements
+    // to become display:none (~260ms), then force a layer teardown + rebuild.
     let raf1 = 0, raf2 = 0
     const timer = setTimeout(() => {
       el.style.overflowY = 'hidden'
       raf1 = requestAnimationFrame(() => {
         raf2 = requestAnimationFrame(() => {
           el.style.overflowY = ''
-          el.scrollTop = 0
+          el.scrollTop = restoreTop
         })
       })
     }, 350)
@@ -229,7 +231,10 @@ export default function PressList({ items }: { items: PressItem[] }) {
                 data-slug={slug}
                 style={style}
                 onMouseEnter={() => handleMouseEnter(item)}
-                onClick={() => sessionStorage.setItem('press_return_slug', slug)}
+                onClick={() => {
+                  sessionStorage.setItem('press_return_slug', slug)
+                  sessionStorage.setItem('press_scroll_top', String(listRef.current?.scrollTop ?? 0))
+                }}
               >
                 {inner}
               </TransitionLink>
