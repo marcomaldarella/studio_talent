@@ -27,10 +27,12 @@ export default function Header() {
     pathname === href || (href !== '/' && pathname.startsWith(href))
   )
 
-  useEffect(() => {
+  const closeDrawer = () => {
     document.body.style.overflow = ''
     setOpen(false)
-  }, [pathname])
+  }
+
+  useEffect(() => { setOpen(false) }, [pathname])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -79,10 +81,10 @@ export default function Header() {
       {/* Mobile drawer */}
       <div className={`st-drawer${open ? ' is-open' : ''}`} aria-hidden={!open}>
         <div className="st-drawer-head">
-          <TransitionLink href="/" className="st-brand" aria-label="Studio Talent — Home">
+          <TransitionLink href="/" className="st-brand" aria-label="Studio Talent — Home" onClick={closeDrawer}>
             <AnimatedLogo className="st-logo" />
           </TransitionLink>
-          <button className="st-drawer-close" onClick={() => setOpen(false)} aria-label="Close menu">
+          <button className="st-drawer-close" onClick={closeDrawer} aria-label="Close menu">
             [Close]
           </button>
         </div>
@@ -95,6 +97,7 @@ export default function Header() {
                 key={href}
                 href={href}
                 className={`st-drawer-link${active ? ' active' : ''}`}
+                onClick={closeDrawer}
               >
                 <span className="st-drawer-label">{label}</span>
                 {active && <span className="st-nav-dot" aria-hidden="true" />}
@@ -110,7 +113,7 @@ export default function Header() {
                 <span className="st-drawer-label">{label}</span>
               </a>
             ) : (
-              <TransitionLink key={href} href={href} className="st-drawer-link">
+              <TransitionLink key={href} href={href} className="st-drawer-link" onClick={closeDrawer}>
                 <span className="st-drawer-label">{label}</span>
               </TransitionLink>
             )
