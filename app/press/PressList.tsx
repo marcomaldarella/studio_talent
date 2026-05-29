@@ -37,6 +37,10 @@ export default function PressList({ items }: { items: PressItem[] }) {
   useEffect(() => {
     const el = listRef.current
     if (!el) return
+
+    // Force iOS Safari to re-register the scroll container after client navigation.
+    const raf = requestAnimationFrame(() => { el.scrollTop = 0 })
+
     const pressItems = Array.from(el.querySelectorAll<HTMLElement>('.st-press-item'))
     const returnSlug = sessionStorage.getItem('press_return_slug')
     if (returnSlug) {
@@ -51,6 +55,7 @@ export default function PressList({ items }: { items: PressItem[] }) {
         { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', stagger: 0.04, delay: 0.05 }
       )
     }
+    return () => cancelAnimationFrame(raf)
   }, [])
 
   // ─── Global mouse tracker

@@ -126,6 +126,8 @@
   cursor: pointer;
   font-family: var(--font);
   padding: 4px 0 6px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ── Mobile drawer ── */
@@ -137,14 +139,14 @@
   display: flex;
   flex-direction: column;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  transform: translateY(-100%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .st-drawer.is-open {
-  opacity: 1;
+  transform: translateY(0);
   pointer-events: all;
 }
 

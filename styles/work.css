@@ -25,6 +25,9 @@
   padding-bottom: 46px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overscroll-behavior-y: none;
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
 }
 
 .st-work-list-right::-webkit-scrollbar {
