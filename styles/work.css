@@ -348,8 +348,13 @@
   .st-work-list {
     grid-template-columns: 1fr;
   }
+  /* Page scroll — remove internal overflow so body scrolls instead */
+  .st-work {
+    overflow: visible;
+  }
   .st-work-list-right {
-    padding-bottom: calc(46px + env(safe-area-inset-bottom));
+    overflow-y: visible;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
   }
   .st-work-list-left { display: none; }
 
