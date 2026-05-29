@@ -19,24 +19,6 @@ const FOOTER_LINKS = [
   { href: '/privacy', label: 'Privacy Policy' },
 ]
 
-// Best practice for iOS Safari: use position:fixed instead of overflow:hidden
-// to lock body scroll. overflow:hidden causes iOS to lose scroll container
-// state on subsequent navigations.
-const lockBodyScroll = () => {
-  const scrollY = window.scrollY
-  document.body.style.position = 'fixed'
-  document.body.style.top = `-${scrollY}px`
-  document.body.style.width = '100%'
-}
-
-const unlockBodyScroll = () => {
-  const rawTop = document.body.style.top
-  document.body.style.position = ''
-  document.body.style.top = ''
-  document.body.style.width = ''
-  if (rawTop) window.scrollTo(0, Math.abs(parseInt(rawTop, 10)))
-}
-
 export default function Header() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
@@ -45,21 +27,11 @@ export default function Header() {
     pathname === href || (href !== '/' && pathname.startsWith(href))
   )
 
-  const openDrawer = () => {
-    lockBodyScroll()
-    setOpen(true)
-  }
+  const openDrawer = () => setOpen(true)
 
-  const closeDrawer = () => {
-    unlockBodyScroll()
-    setOpen(false)
-  }
+  const closeDrawer = () => setOpen(false)
 
-  // Safety net: close drawer on any navigation (back/forward, etc.)
-  useEffect(() => {
-    if (document.body.style.position === 'fixed') unlockBodyScroll()
-    setOpen(false)
-  }, [pathname])
+  useEffect(() => { setOpen(false) }, [pathname])
 
   return (
     <>
