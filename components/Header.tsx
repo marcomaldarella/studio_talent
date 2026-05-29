@@ -27,7 +27,10 @@ export default function Header() {
     pathname === href || (href !== '/' && pathname.startsWith(href))
   )
 
-  useEffect(() => { setOpen(false) }, [pathname])
+  useEffect(() => {
+    document.body.style.overflow = ''
+    setOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
