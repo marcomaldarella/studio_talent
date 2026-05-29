@@ -58,4 +58,15 @@ img {
   to   { transform: scaleX(1); }
 }
 
+@media (max-width: 640px) {
+  html:has(.st-work-list-right),
+  html:has(.st-press-list) {
+    height: var(--screen-h, 100lvh);
+  }
+  body:has(.st-work-list-right),
+  body:has(.st-press-list) {
+    height: var(--screen-h, 100lvh);
+  }
+}
+
 
