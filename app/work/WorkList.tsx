@@ -17,11 +17,7 @@ export default function WorkList({ items }: Props) {
     const el = listRef.current
     if (!el) return
 
-    // Force iOS Safari to re-register the scroll container after client navigation.
-    // A fixed full-screen drawer shown before this page causes iOS to discard the
-    // scroll layer; an imperative scrollTop write forces it to re-create it.
-    const raf = requestAnimationFrame(() => { el.scrollTop = 0 })
-
+    // GSAP entrance — runs immediately
     const workItems = Array.from(el.querySelectorAll<HTMLElement>('.st-work-item'))
     const returnSlug = sessionStorage.getItem('work_return_slug')
     if (returnSlug) {
@@ -36,7 +32,26 @@ export default function WorkList({ items }: Props) {
         { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.08, delay: 0.05 }
       )
     }
-    return () => cancelAnimationFrame(raf)
+
+    // iOS Safari discards the scroll compositing layer when a position:fixed
+    // fullscreen drawer is shown. The drawer becomes display:none at ~260ms
+    // after navigation. Wait 350ms then force a teardown + rebuild of the layer.
+    let raf1 = 0, raf2 = 0
+    const timer = setTimeout(() => {
+      el.style.overflowY = 'hidden'
+      raf1 = requestAnimationFrame(() => {
+        raf2 = requestAnimationFrame(() => {
+          el.style.overflowY = ''
+          el.scrollTop = 0
+        })
+      })
+    }, 350)
+
+    return () => {
+      clearTimeout(timer)
+      cancelAnimationFrame(raf1)
+      cancelAnimationFrame(raf2)
+    }
   }, [])
 
   return (

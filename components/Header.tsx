@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import AnimatedLogo from './AnimatedLogo'
 import TransitionLink from './TransitionLink'
@@ -22,16 +22,48 @@ const FOOTER_LINKS = [
 export default function Header() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const activeItem = NAV.find(({ href }) =>
     pathname === href || (href !== '/' && pathname.startsWith(href))
   )
 
-  const openDrawer = () => setOpen(true)
+  const openDrawer = () => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = null
+    }
+    // Remove display:none before starting the fade-in
+    const el = drawerRef.current
+    if (el) el.style.display = ''
+    requestAnimationFrame(() => setOpen(true))
+  }
 
-  const closeDrawer = () => setOpen(false)
+  const closeDrawer = () => {
+    setOpen(false)
+    // After the fade-out animation (220ms), set display:none so iOS releases
+    // the compositing layer and can restore scroll layers in child pages.
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+    hideTimerRef.current = setTimeout(() => {
+      if (drawerRef.current) drawerRef.current.style.display = 'none'
+    }, 260)
+  }
 
-  useEffect(() => { setOpen(false) }, [pathname])
+  // On mount: drawer starts display:none (SSR renders it as opacity:0 flex)
+  useEffect(() => {
+    if (drawerRef.current) drawerRef.current.style.display = 'none'
+    return () => { if (hideTimerRef.current) clearTimeout(hideTimerRef.current) }
+  }, [])
+
+  // On navigation: close drawer and schedule display:none
+  useEffect(() => {
+    setOpen(false)
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+    hideTimerRef.current = setTimeout(() => {
+      if (drawerRef.current) drawerRef.current.style.display = 'none'
+    }, 260)
+  }, [pathname])
 
   return (
     <>
@@ -72,8 +104,9 @@ export default function Header() {
         </nav>
       </header>
 
-      {/* Mobile drawer */}
-      <div className={`st-drawer${open ? ' is-open' : ''}`} aria-hidden={!open}>
+      {/* Mobile drawer — display:none when closed, so iOS releases the
+          fixed-position compositing layer and scroll containers work. */}
+      <div ref={drawerRef} className={`st-drawer${open ? ' is-open' : ''}`} aria-hidden={!open}>
         <div className="st-drawer-head">
           <TransitionLink href="/" className="st-brand" aria-label="Studio Talent — Home" onClick={closeDrawer}>
             <AnimatedLogo className="st-logo" />
