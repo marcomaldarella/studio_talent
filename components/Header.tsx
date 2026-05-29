@@ -19,6 +19,24 @@ const FOOTER_LINKS = [
   { href: '/privacy', label: 'Privacy Policy' },
 ]
 
+// Best practice for iOS Safari: use position:fixed instead of overflow:hidden
+// to lock body scroll. overflow:hidden causes iOS to lose scroll container
+// state on subsequent navigations.
+const lockBodyScroll = () => {
+  const scrollY = window.scrollY
+  document.body.style.position = 'fixed'
+  document.body.style.top = `-${scrollY}px`
+  document.body.style.width = '100%'
+}
+
+const unlockBodyScroll = () => {
+  const rawTop = document.body.style.top
+  document.body.style.position = ''
+  document.body.style.top = ''
+  document.body.style.width = ''
+  if (rawTop) window.scrollTo(0, Math.abs(parseInt(rawTop, 10)))
+}
+
 export default function Header() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
@@ -27,17 +45,21 @@ export default function Header() {
     pathname === href || (href !== '/' && pathname.startsWith(href))
   )
 
+  const openDrawer = () => {
+    lockBodyScroll()
+    setOpen(true)
+  }
+
   const closeDrawer = () => {
-    document.body.style.overflow = ''
+    unlockBodyScroll()
     setOpen(false)
   }
 
-  useEffect(() => { setOpen(false) }, [pathname])
-
+  // Safety net: close drawer on any navigation (back/forward, etc.)
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [open])
+    if (document.body.style.position === 'fixed') unlockBodyScroll()
+    setOpen(false)
+  }, [pathname])
 
   return (
     <>
@@ -55,7 +77,7 @@ export default function Header() {
                 <span className="st-nav-dot" aria-hidden="true" />
               </span>
             ) : <span />}
-            <button className="st-menu-btn" onClick={() => setOpen(true)} aria-label="Open menu">
+            <button className="st-menu-btn" onClick={openDrawer} aria-label="Open menu">
               [Menu]
             </button>
           </div>
