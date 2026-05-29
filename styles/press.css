@@ -181,12 +181,7 @@
 
 @media (max-width: 640px) {
   .st-press-float-pos { display: none; }
-  /* Page scroll — remove internal overflow so body scrolls instead */
-  .st-press {
-    overflow: visible;
-  }
   .st-press-list {
-    overflow-y: visible;
     padding-bottom: calc(60px + env(safe-area-inset-bottom));
   }
 }

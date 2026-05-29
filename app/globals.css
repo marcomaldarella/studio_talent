@@ -58,20 +58,4 @@ img {
   to   { transform: scaleX(1); }
 }
 
-@media (max-width: 640px) {
-  /* Work and press listing pages: switch to page scroll (body) so Safari
-     collapses the bottom address bar. Div-level overflow-y scroll does not
-     trigger bar collapse on iOS 18+. */
-  html:has(.st-work-list-right),
-  html:has(.st-press-list) {
-    height: auto;
-    min-height: 100svh;
-  }
-  body:has(.st-work-list-right),
-  body:has(.st-press-list) {
-    display: block;
-    height: auto;
-    overflow-y: auto;
-  }
-}
 
