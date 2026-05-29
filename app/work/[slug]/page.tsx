@@ -19,7 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${p.title} — Studio Talent`,
       description: p.description ?? `${p.title} — ${p.category}, ${p.year}. A Studio Talent production.`,
-      ...(p.coverImage ? { images: [{ url: p.coverImage, width: 1200, height: 630, alt: p.title }] } : {}),
+      images: p.coverImage
+        ? [{ url: p.coverImage, width: 1200, height: 630, alt: p.title }]
+        : [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Studio Talent' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: p.coverImage ? [p.coverImage] : ['/twitter-card.png'],
     },
   }
 }
