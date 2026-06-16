@@ -1,7 +1,7 @@
 'use client'
 
-import { createContext, useContext, useCallback, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { createContext, useContext, useCallback, useEffect, useRef } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 
 type CurtainCtx = { navigateTo: (href: string) => void }
 const CurtainContext = createContext<CurtainCtx>({ navigateTo: () => {} })
@@ -12,10 +12,32 @@ const OUT = 260
 
 export function CurtainProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
+  const pathname = usePathname()
   const curtainRef = useRef<HTMLDivElement>(null)
+  const navigatingRef = useRef(false)
   const t1 = useRef<ReturnType<typeof setTimeout> | null>(null)
   const t2 = useRef<ReturnType<typeof setTimeout> | null>(null)
   const t3 = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const startFadeOut = useCallback(() => {
+    navigatingRef.current = false
+    if (t2.current) clearTimeout(t2.current)
+    const el = curtainRef.current
+    if (!el) return
+    el.style.transition = `opacity ${OUT}ms ease-out`
+    el.style.opacity = '0'
+    t3.current = setTimeout(() => {
+      el.style.pointerEvents = 'none'
+      el.style.display = 'none'
+    }, OUT)
+  }, [])
+
+  // usePathname updates when React commits the new page tree — the real end of
+  // navigation. Waiting for it (instead of a fixed 40ms) prevents the flash
+  // caused by fading the curtain before the new content is ready.
+  useEffect(() => {
+    if (navigatingRef.current) startFadeOut()
+  }, [pathname, startFadeOut])
 
   const navigateTo = useCallback((href: string) => {
     const el = curtainRef.current
@@ -24,6 +46,7 @@ export function CurtainProvider({ children }: { children: React.ReactNode }) {
     if (t1.current) clearTimeout(t1.current)
     if (t2.current) clearTimeout(t2.current)
     if (t3.current) clearTimeout(t3.current)
+    navigatingRef.current = false
 
     // Un-hide the curtain, then start the fade-in next frame
     // (display:none → block must happen before the transition kicks in)
@@ -37,21 +60,15 @@ export function CurtainProvider({ children }: { children: React.ReactNode }) {
       el.style.pointerEvents = 'all'
 
       t1.current = setTimeout(() => {
+        navigatingRef.current = true
         router.push(href)
 
-        t2.current = setTimeout(() => {
-          el.style.transition = `opacity ${OUT}ms ease-out`
-          el.style.opacity = '0'
-
-          t3.current = setTimeout(() => {
-            el.style.pointerEvents = 'none'
-            // display:none removes it from iOS compositor — same fix as the drawer
-            el.style.display = 'none'
-          }, OUT)
-        }, 40)
+        // Safety fallback: if pathname never changes (same page, redirect, etc.)
+        // fade out after 2 s so the curtain doesn't stay up forever.
+        t2.current = setTimeout(startFadeOut, 2000)
       }, IN)
     })
-  }, [router])
+  }, [router, startFadeOut])
 
   return (
     <CurtainContext.Provider value={{ navigateTo }}>
